@@ -14,7 +14,7 @@ class Display extends Canvas implements Runnable {
     private PVector gravity;
     private PVector wind;
 
-    private TestSquare k;
+    private TestSquare k,h,j;
 
 
     public static void main(String[] args) {
@@ -30,7 +30,8 @@ class Display extends Canvas implements Runnable {
         acceleration = new PVector(0, 0.05f);
 
         k = new TestSquare(200, 200, 50, 50,10,gravity.y);
-
+        h = new TestSquare(20, 200, 50, 50,1,gravity.y);
+        j = new TestSquare(20, 20, 50, 50,50,gravity.y);
         new Window(WIDTH,HEIGHT,"processing er lort",this);
     }
 
@@ -90,6 +91,16 @@ class Display extends Canvas implements Runnable {
         k.mov.addforce(friction);
         k.mov.update();
 
+        h.mov.addforce(new PVector(0, h.gravity));
+        h.mov.addforce(wind);
+        h.mov.addforce(friction);
+        h.mov.update();
+
+        j.mov.addforce(new PVector(0, j.gravity));
+        j.mov.addforce(wind);
+        j.mov.addforce(friction);
+        j.mov.update();
+
         //local rect
         velocity.add(acceleration);
         location.add(velocity);
@@ -115,6 +126,8 @@ class Display extends Canvas implements Runnable {
         
         //test with an object (TestSquare seperate class that use mover for local values)
         k.draw(g, Color.pink);
+        h.draw(g, Color.BLUE);
+        j.draw(g, Color.green);
 
 
         //stats top left
