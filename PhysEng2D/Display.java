@@ -6,7 +6,7 @@ import java.awt.Graphics;
 class Display extends Canvas implements Runnable {
 
     public static final int WIDTH = 1024, HEIGHT = WIDTH / 16 * 9;
-    private double UpdatesPrSec = 240;  
+    private double UpdatesPrSec = 60;  
     private Thread thread;
     private boolean running = false;
     private int FPS;
@@ -14,7 +14,8 @@ class Display extends Canvas implements Runnable {
     private PVector gravity;
     private PVector wind;
 
-    private TestSquare k,h,j;
+    private TestSquare k;
+    private Liquid j;
 
 
     public static void main(String[] args) {
@@ -23,15 +24,15 @@ class Display extends Canvas implements Runnable {
 
     public Display(){
         gravity = new PVector(0, 0.05f);
-        wind = new PVector(0.005f, 0);
+        wind = new PVector(0, 0);
 
         location = new PVector(20, 20);
         velocity = new PVector(1,1);
         acceleration = new PVector(0, 0.05f);
 
-        k = new TestSquare(200, 200, 50, 50,10,gravity.y);
-        h = new TestSquare(20, 200, 50, 50,1,gravity.y);
-        j = new TestSquare(20, 20, 50, 50,50,gravity.y);
+        k = new TestSquare(20, 20, 50, 50,1,gravity.y);
+        j = new Liquid(0,HEIGHT/2,WIDTH, HEIGHT, 0.1f);
+
         new Window(WIDTH,HEIGHT,"processing er lort",this);
     }
 
@@ -86,20 +87,13 @@ class Display extends Canvas implements Runnable {
         friction.normalize();
         friction.mult(0.01f);
 
+        if (k.mov.inInLiquid(j)) {
+            k.mov.drag(j);   
+        }  
         k.mov.addforce(new PVector(0, k.gravity));
         k.mov.addforce(wind);
         k.mov.addforce(friction);
         k.mov.update();
-
-        h.mov.addforce(new PVector(0, h.gravity));
-        h.mov.addforce(wind);
-        h.mov.addforce(friction);
-        h.mov.update();
-
-        j.mov.addforce(new PVector(0, j.gravity));
-        j.mov.addforce(wind);
-        j.mov.addforce(friction);
-        j.mov.update();
 
         //local rect
         velocity.add(acceleration);
@@ -125,9 +119,8 @@ class Display extends Canvas implements Runnable {
         g.fillRect(location.getx(), location.gety(), 50, 50);
         
         //test with an object (TestSquare seperate class that use mover for local values)
+        j.draw(g, Color.blue);
         k.draw(g, Color.pink);
-        h.draw(g, Color.BLUE);
-        j.draw(g, Color.green);
 
 
         //stats top left

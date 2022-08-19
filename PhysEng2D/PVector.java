@@ -1,11 +1,19 @@
 public class PVector {
     float x,y;
-    float mag = (float) Math.sqrt(x*x + y*y);
+    float mag = mag();
 
     public PVector(float x, float y){
         this.x = x;
         this.y = y;
         mag = (float) Math.sqrt(x*x + y*y);
+    }
+    public float mag(){
+        mag =(float) Math.sqrt(x*x + y*y);
+        if(mag==0){
+            return Math.abs(x-y);
+        }
+        
+        return mag;
     }
     public int getx(){
         return (int) this.x;
