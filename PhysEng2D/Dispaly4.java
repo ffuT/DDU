@@ -1,15 +1,25 @@
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.image.BufferStrategy;
+
 import java.awt.Graphics;
 
 class Display4 extends Canvas implements Runnable {
 
     public static final int WIDTH = 1024, HEIGHT = WIDTH / 16 * 9;
-    private double UpdatesPrSec = 60;  
+
+    private double UpdatesPrSec = 120;  
     private Thread thread;
     private boolean running = false;
     private int FPS;
+    private Game game = new Game();
+    private InputHandler input;
+    private PVector move = new PVector();
+    
+    //game entities
+    private Particle p = new Particle(new PVector(100,100));
+    private Particle2 pp = new Particle2(150,150,2,Color.orange,100);
+    private PFlame pf = new PFlame(1000, new PVector());
 
     public static void main(String[] args) {
         new Display4();
@@ -18,6 +28,11 @@ class Display4 extends Canvas implements Runnable {
     public Display4(){
 
         new Window(WIDTH,HEIGHT,"partikler!",this);
+        input = new InputHandler();
+        addKeyListener(input);
+        addFocusListener(input);
+        addMouseListener(input);
+        addMouseMotionListener(input);
     }
 
     public synchronized void start() {
@@ -63,10 +78,22 @@ class Display4 extends Canvas implements Runnable {
         }
         stop();
     }
-    public void Tick(){
 
+    //update game 1/60 seconds (tickrate constant)
+    public void Tick(){
+        pp.update();
+        p.update();
+
+        game.tick(input.key);
+        
+        move.y = game.control.ymove;
+        move.x = game.control.xmove;
+        
+        pf.origin.add(move);
+        pf.update();
     }
 
+    //render graphics at pc speed (fps varies)
     private void render(){
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null){
@@ -79,9 +106,10 @@ class Display4 extends Canvas implements Runnable {
         g.setColor(Color.lightGray);
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
+        pp.draw(g);
+        p.draw(g);
 
-
-
+        pf.draw(g);
 
         //stats top left
         g.setColor(Color.black);

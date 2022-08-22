@@ -7,6 +7,10 @@ public class PVector {
         this.y = y;
         mag = (float) Math.sqrt(x*x + y*y);
     }
+    public PVector(){
+        this.x = 0;
+        this.y = 0;
+    }
     public float mag(){
         mag =(float) Math.sqrt(x*x + y*y);
         if(mag==0){

@@ -12,8 +12,8 @@ public class mover {
     public mover(int x, int y, float mass) {
         this.mass = mass;
         this.location = new PVector(x,y);
-        this.velocity = new PVector(0,0);
-        this.acceleration = new PVector(0, 0);
+        this.velocity = new PVector();
+        this.acceleration = new PVector();
       }
     public void update(){
         //x and y movement
