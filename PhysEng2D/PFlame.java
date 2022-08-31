@@ -29,13 +29,13 @@ public class PFlame{
         } else {
             c = Color.orange;
         }
-        Particles.add(new Particle2(origin.getx(),origin.gety()+r.nextInt(-5,5),10,c,lifespan));
+        Particles.add(new Particle2(origin.getx(),origin.gety()+r.nextInt(5),10,c,lifespan));
         Particles.add(new Particle2(origin.getx(),origin.gety(),10,c,lifespan));
         for(int i =Particles.size()-1;i>=0;i--){
             Particle2 p = (Particle2) Particles.get(i);
             p.aAcceleration = r.nextFloat();
-            p.acceleration.add(new PVector(r.nextFloat(0.002f),r.nextFloat(0.002f)));
-            p.addforce(new PVector(0,r.nextFloat(0.03f)));
+            p.acceleration.add(new PVector(0,0));
+            p.addforce(new PVector(0,0));
             p.update();
             if(p.isdead()){
                 Particles.remove(p);
