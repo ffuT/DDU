@@ -3,7 +3,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Player {
-    private mover mov;
+    public mover mov;
     private Controller con;
 
     Player(){
@@ -13,14 +13,14 @@ public class Player {
     public void draw(Graphics g){
         Graphics2D gg = (Graphics2D) g.create();
         gg.setColor(Color.green);
-        gg.translate(Display.WIDTH/2, Display.HEIGHT/2);
-        gg.fillRect(0, 0, 32, 32);
+        //gg.translate(Display.WIDTH/2, Display.HEIGHT/2);
+        gg.fillRect(mov.location.getx(), mov.location.gety(), 32, 32);
 
         gg.dispose();
     }
     public void update(){
         mov.update();
         mov.velocity.x = con.xmove;
-        mov.velocity.y= con.ymove;
+        mov.velocity.y = con.ymove;
     }
 }

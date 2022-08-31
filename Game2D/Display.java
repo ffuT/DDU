@@ -19,6 +19,11 @@ class Display extends Canvas implements Runnable  {
     private Player p;
 
 
+    private InputHandler input;
+    private Game game = new Game();
+    private PVector move = new PVector();
+
+
     public static void main(String[] args) {
         new Display();
     }
@@ -28,6 +33,12 @@ class Display extends Canvas implements Runnable  {
         p = new Player();
 
         new Window(WIDTH,HEIGHT,"2D Roguelike topdown",this);
+
+        input = new InputHandler();
+        addKeyListener(input);
+        addFocusListener(input);
+        addMouseListener(input);
+        addMouseMotionListener(input);
     }
 
     public synchronized void start() {
@@ -76,7 +87,13 @@ class Display extends Canvas implements Runnable  {
     public void Tick(){
         //game updates here
 
-
+        //movement
+        game.tick(input.key);
+        move.y = game.control.ymove;
+        move.x = game.control.xmove;
+        p.mov.velocity.add(move);
+        System.out.println(move.x +" "+ move.y);
+        p.update();
     }
 
     private void render(){
