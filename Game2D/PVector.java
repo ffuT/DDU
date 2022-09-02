@@ -47,6 +47,10 @@ public class PVector {
         x = x * n;
         y = y * n;
     }
+    public void mult(PVector n){
+        x = x * n.x;
+        y = y * n.y;
+    }
     public void div(Float n){
         x = x / n;
         y = y / n;

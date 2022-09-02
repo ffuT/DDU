@@ -23,7 +23,9 @@ class Display extends Canvas implements Runnable  {
     private Part1 p1 = new Part1();
     private Part2 p2 = new Part2();
     private Part3 p3 = new Part3();
-    private Weapon gun = new Weapon(p1, p2, p3);
+    private Weapon gun;
+    public float gunangle;
+    public PVector MLocation;
 
     private InputHandler input;
     private Game game = new Game();
@@ -38,7 +40,7 @@ class Display extends Canvas implements Runnable  {
         //setup values here
         room = new Room();
         p = new Player(StartHP,5f);
-
+        gun = new Weapon(p1, p2, p3);
         new Window(WIDTH,HEIGHT,"SPRITE MAN ADVENTURES",this);
 
         input = new InputHandler();
@@ -95,6 +97,17 @@ class Display extends Canvas implements Runnable  {
         //game updates here
         room.UpdateRoom(p);
 
+        //gun movement
+        MLocation = new PVector(input.mouseX,input.mouseY);
+        gunangle = (float) Math.atan2(MLocation.y-p.mov.location.y-p.height/2,MLocation.x-p.mov.location.x-p.width/2);
+        
+        //mouseclicks
+        if(input.mouseClicked){
+            gun.shoot(p);
+        }
+        input.mouseClicked=false;
+        input.mouseReleased=false;
+
         //movement
         game.tick(input.key);
         p.mov.velocity.mult(0f);
@@ -119,11 +132,11 @@ class Display extends Canvas implements Runnable  {
                
         try{
             Graphics2D gg = (Graphics2D) g.create();
-            String imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\Floor.png";
+            String imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Floor.png";
             BufferedImage img = ImageIO.read(new File(imgpath));
             gg.drawImage(img, 0, 0, null);
             
-            imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\HEALTHVBAR OF DOOM.png";
+            imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\HEALTHVBAR OF DOOM.png";
             img = ImageIO.read(new File(imgpath));
             gg.setColor(Color.red);
             float HPWidth = (p.hitpoints/StartHP) * 246;
@@ -140,8 +153,8 @@ class Display extends Canvas implements Runnable  {
         //draw objects here
         p.draw(g);
         room.drawRoom(g);
-        gun.drawgun(g, p);
-
+        gun.drawgun(g, p, gunangle);
+        room.drawdoors(g);
 
         /* guide lines
         g.setColor(Color.gray);
@@ -179,4 +192,5 @@ class Display extends Canvas implements Runnable  {
         g.dispose();
         bs.show();
     }
+
 }

@@ -5,18 +5,18 @@ import java.util.Random;
 import java.awt.Color;
 
 
-public class PFlame{
-    private Color c = Color.orange;
-    private ArrayList<Particle2> Particles;
+public class FireingBullet{
+    private Color c = Color.black;
+    private ArrayList<Bullet> Particles;
     private float lifespan;
     public boolean fireing =  true;
     public PVector origin;
 
-    public PFlame(float lifespan, PVector origin){
+    public FireingBullet(float lifespan, PVector origin){
         this.lifespan = lifespan; 
         this.origin = origin;
-        Particles = new ArrayList<Particle2>(); 
-        Particles.add(new Particle2(origin.getx(),origin.gety(),10,c,lifespan));
+        Particles = new ArrayList<Bullet>(); 
+        Particles.add(new Bullet(origin.getx(),origin.gety(),10,c,lifespan));
     }
 
     public void update(){
@@ -25,14 +25,14 @@ public class PFlame{
         Random r = new Random();
         int k = r.nextInt(3);
         if(k < 2){
-            c = Color.red;
+            c = Color.black;
         } else {
-            c = Color.orange;
+            c = Color.darkGray;
         }
-        Particles.add(new Particle2(origin.getx(),origin.gety()+r.nextInt(5),10,c,lifespan));
-        Particles.add(new Particle2(origin.getx(),origin.gety(),10,c,lifespan));
+        Particles.add(new Bullet(origin.getx(),origin.gety()+r.nextInt(5),10,c,lifespan));
+        Particles.add(new Bullet(origin.getx(),origin.gety(),10,c,lifespan));
         for(int i =Particles.size()-1;i>=0;i--){
-            Particle2 p = (Particle2) Particles.get(i);
+            Bullet p = (Bullet) Particles.get(i);
             p.aAcceleration = r.nextFloat();
             p.acceleration.add(new PVector(0,0));
             p.addforce(new PVector(0,0));
@@ -48,7 +48,7 @@ public class PFlame{
             return;
         Graphics2D gg = (Graphics2D) g.create();
 
-        for(Particle2 p : Particles){
+        for(Bullet p : Particles){
             p.draw(gg);
         }
         gg.dispose();

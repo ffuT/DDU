@@ -18,7 +18,6 @@ public class Game {
         boolean sprint = Key[KeyEvent.VK_SHIFT];
         boolean crouch = Key[KeyEvent.VK_CONTROL];
 
-
         control.tick(forward, back, left, right, turnleft, turnright, jump, sprint, crouch);
     }
 }
