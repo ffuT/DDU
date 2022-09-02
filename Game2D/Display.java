@@ -16,13 +16,19 @@ class Display extends Canvas implements Runnable  {
     private boolean running = false;
     private int FPS;
 
-    private Player p;
+    public Room room;
+    public Player p;
 
+    //temporary gun
+    private Part1 p1 = new Part1();
+    private Part2 p2 = new Part2();
+    private Part3 p3 = new Part3();
+    private Weapon gun = new Weapon(p1, p2, p3);
 
     private InputHandler input;
     private Game game = new Game();
     private PVector move = new PVector();
-
+    private float StartHP=100;
 
     public static void main(String[] args) {
         new Display();
@@ -30,9 +36,10 @@ class Display extends Canvas implements Runnable  {
 
     public Display(){
         //setup values here
-        p = new Player();
+        room = new Room();
+        p = new Player(StartHP,5f);
 
-        new Window(WIDTH,HEIGHT,"2D Roguelike topdown",this);
+        new Window(WIDTH,HEIGHT,"SPRITE MAN ADVENTURES",this);
 
         input = new InputHandler();
         addKeyListener(input);
@@ -86,14 +93,19 @@ class Display extends Canvas implements Runnable  {
     }
     public void Tick(){
         //game updates here
+        room.UpdateRoom(p);
 
         //movement
         game.tick(input.key);
+        p.mov.velocity.mult(0f);
         move.y = game.control.ymove;
         move.x = game.control.xmove;
         p.mov.velocity.add(move);
-        System.out.println(move.x +" "+ move.y);
         p.update();
+
+        if(p.hitBox(new PVector(500,500))){
+            p.hitpoints--;
+        }
     }
 
     private void render(){
@@ -103,38 +115,66 @@ class Display extends Canvas implements Runnable  {
             return;
         }
 
-     
-        Graphics g = bs.getDrawGraphics();
-        //background 
-        g.setColor(Color.lightGray);
-        g.fillRect(0, 0, WIDTH, HEIGHT);
-
-    
+        Graphics g = bs.getDrawGraphics();    
                
         try{
             Graphics2D gg = (Graphics2D) g.create();
             String imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\Floor.png";
             BufferedImage img = ImageIO.read(new File(imgpath));
             gg.drawImage(img, 0, 0, null);
+            
+            imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\HEALTHVBAR OF DOOM.png";
+            img = ImageIO.read(new File(imgpath));
+            gg.setColor(Color.red);
+            float HPWidth = (p.hitpoints/StartHP) * 246;
+            gg.fillRect(25, 72, (int) HPWidth, 35);
+            gg.drawImage(img, 20, 20, null);
+
             gg.dispose();
-            } catch(IOException e){}
-
-            p.draw(g);
-
-        //Walls
-        g.setColor(Color.black);
-        g.fillRect(0, 0, 10, HEIGHT);
-        g.fillRect(WIDTH-26,0, 10, HEIGHT);
-        g.fillRect(0, 0, WIDTH, 10);
-        g.fillRect(0, HEIGHT-49, WIDTH, 10);
-
+            } catch(IOException e){
+                //background 
+                g.setColor(Color.lightGray);
+                g.fillRect(0, 0, WIDTH, HEIGHT);
+            }
 
         //draw objects here
+        p.draw(g);
+        room.drawRoom(g);
+        gun.drawgun(g, p);
 
+
+        /* guide lines
+        g.setColor(Color.gray);
+        for(int i = 1; i<=WIDTH;i+=10){
+            g.drawLine(i, 0, i, HEIGHT);
+        }
+        for(int i = 1; i<=WIDTH;i+=10){
+            g.drawLine(0, i, WIDTH, i);
+        }        
+        */
+
+
+        g.setColor(Color.pink);
+        g.fillRect(500, 500, 10, 10);
+        //Walls
+        g.setColor(Color.black);
+        //left
+        g.fillRect(0, 0, 10, HEIGHT);
+        //right
+        g.fillRect(WIDTH-26,0, 10, HEIGHT);
+        //top
+        g.fillRect(0, 0, WIDTH, 10);
+        //bott
+        g.fillRect(0, HEIGHT-49, WIDTH, 10);
        
         //stats top left
         g.setColor(Color.white);
-        g.drawString("FPS: " + FPS, 10, 25);
+        g.drawString("FPS: " + FPS, 15, 25);
+        //player stats
+        g.drawString("VelX: " + p.mov.velocity.x , 15, 40);
+        g.drawString("VelY: " + p.mov.velocity.y , 15, 55);
+        g.drawString("HP: " + p.hitpoints , 15, 70);
+        g.drawString("last door: " + room.prevdoor, 15, 85);
 
         g.dispose();
         bs.show();

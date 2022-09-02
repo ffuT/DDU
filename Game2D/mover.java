@@ -3,6 +3,8 @@ public class mover {
     public float mass;
     public boolean doesbounce = true;
     public boolean staybounds = true;
+    public int objw =0;
+    public int objh =0;
 
     float angle = 0;
     float aVelocity = 0;
@@ -51,14 +53,14 @@ public class mover {
     public void checkedge(){
         if(!staybounds)
             return;
-        if(location.x > Display.WIDTH-65)
-            location.x = Display.WIDTH-65;
-        if(location.x < 0)
-            location.x = 0;
-        if(location.y > Display.HEIGHT-85)
-            location.y =Display.HEIGHT-85;
-        if(location.y < 0)
-            location.y=0;
+        if(location.x > Display.WIDTH-26-objw)
+            location.x = Display.WIDTH-26-objw;
+        if(location.x < 10)
+            location.x = 10;
+        if(location.y > Display.HEIGHT-49-objh)
+            location.y =Display.HEIGHT-49-objh;
+        if(location.y < 10)
+            location.y=10;
     }
     /* 
     public boolean inInLiquid(Liquid l){
