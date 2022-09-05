@@ -50,7 +50,7 @@ public class FireingBullet{
             mouse = mouse.get();
             mouse.normalize();
             mouse.mult(BulletSpeed);
-            Particles.add(new Bullet(origin.getx(),origin.gety(),10,c,lifespan,mouse.get()));
+            Particles.add(new Bullet(origin.getx(),origin.gety(),10,c,lifespan,mouse.get(),DMG));
             }
         } 
             for(int i =Particles.size()-1;i>=0;i--){

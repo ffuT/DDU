@@ -9,13 +9,13 @@ public class Controller {
     public static double walkspeed = 0.75;
     public float xmove = 0;
     public float ymove = 0;
+    public boolean inventory=false;
+    int k=0;
 
-    public void tick(boolean forward, Boolean back,Boolean left,Boolean right,Boolean turnleft,Boolean turnright, boolean jump, boolean sprint, boolean crouch){
+    public void tick(boolean forward, Boolean back,Boolean left,Boolean right,Boolean turnleft,Boolean turnright, boolean jump, boolean sprint, boolean Inventory){
         walkspeed = 0.75;
         if(!walk)
             walkspeed=0;
-        double jumpheight = 1;
-        double crouchheight = 0.6;
         xmove = 0;
         ymove = 0;
 
@@ -51,9 +51,22 @@ public class Controller {
         }
         if(jump){
         }
-        if(crouch){
-
+        if(Inventory && k >= 10){
+            inventory=false;
         }
+        if(inventory){
+            k++;
+        }
+
+        if(Inventory && k <= 10){
+            inventory=true;
+            k = 0;
+        }
+
+        if(!inventory && !Inventory){
+           k=0;
+        }   
+
         if(sprint){
 
         }

@@ -23,12 +23,10 @@ public class Player {
         gg.setColor(Color.green);
         //gg.translate(Display.WIDTH/2, Display.HEIGHT/2);
         //gg.fillRect(mov.location.getx(), mov.location.gety(), width, height);
-        //C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\'
-        //C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\
         try {
-            String imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\SPRITE_SOLO_MAN.png";
+            String imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\SPRITE_SOLO_MAN.png";
             BufferedImage Topimg = ImageIO.read(new File(imgpath));
-            String imgpath2 = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\SPRITE_MANS_SKATEBOARD.png";
+            String imgpath2 = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\SPRITE_MANS_SKATEBOARD.png";
             BufferedImage Botimg = ImageIO.read(new File(imgpath2));
             if(mov.velocity.x<0){
                 gg.scale(-1, 1);

@@ -50,27 +50,27 @@ public class Part3 {
                 this.BulletAmount = 1;
                 break;
             case 2:
-                this.Spread = 0.07f - r.nextFloat(0.002f);
+                this.Spread = 0.07f - r.nextInt(2)/1000;
                 this.BulletSpeed = 7 + r.nextFloat()*2;
                 this.BulletAmount = 1;
                 break;
             case 3:
-                this.Spread = 0.07f - r.nextFloat(0.003f)*2;
+                this.Spread = 0.07f - r.nextInt(6)/1000;
                 this.BulletSpeed = 8 + r.nextFloat()*3;
                 this.BulletAmount = r.nextInt(1)+1;
                 break;
             case 4:
-                this.Spread = 0.04f - r.nextFloat(0.004f)*2;
+                this.Spread = 0.04f - r.nextInt(8)/1000;
                 this.BulletSpeed = 9 + r.nextFloat()*4;
                 this.BulletAmount = r.nextInt(1)+2;
                 break;
             case 5:
-                this.Spread = 0.04f - r.nextFloat(0.005f)*2;
+                this.Spread = 0.04f - r.nextInt(1)/100;
                 this.BulletSpeed = 10 + r.nextFloat()*5;
                 this.BulletAmount = r.nextInt(1)+2;
                 break;
             case 6:
-                this.Spread = 0.04f - r.nextFloat(0.005f)*5;
+                this.Spread = 0.04f - r.nextInt(25)/1000;
                 this.BulletSpeed = 10 + r.nextFloat()*10;
                 this.BulletAmount = r.nextInt(2)+3;
                 break;

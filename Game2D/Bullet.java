@@ -6,10 +6,13 @@ public class Bullet extends mover {
     int width=5,height=5;
     float lifepsan;
     Color c;
+    float DMG;
+
 
     //mass is irrelevant
-    public Bullet(int x, int y, float mass, Color c, float life, PVector velocity) {
+    public Bullet(int x, int y, float mass, Color c, float life, PVector velocity, float DMG) {
         super(x, y, mass);
+        this.DMG = DMG;
         this.doesbounce = false;
         this.staybounds = false;
         this.c = c;
@@ -37,5 +40,12 @@ public class Bullet extends mover {
         if(lifepsan < 0.0){
             return true;
         } else return false;
+    }
+
+    public boolean hitBox(PVector point1, PVector point2){
+        if(location.x+2 > point2.x || location.x+4 < point1.x || location.y+2 > point2.y || location.y+4 < point1.y){
+            return false;
+        } 
+        return true;
     }
 }

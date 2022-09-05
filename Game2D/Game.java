@@ -17,8 +17,9 @@ public class Game {
         boolean jump = Key[KeyEvent.VK_SPACE];
         boolean sprint = Key[KeyEvent.VK_SHIFT];
         boolean crouch = Key[KeyEvent.VK_CONTROL];
+        boolean Inventory = Key[KeyEvent.VK_I];
     
-        control.tick(forward, back, left, right, turnleft, turnright, jump, sprint, crouch);
+        control.tick(forward, back, left, right, turnleft, turnright, jump, sprint, Inventory);
     }
 }
 
