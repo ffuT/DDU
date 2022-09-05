@@ -7,11 +7,17 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 
 public class Weapon {
-    private float DMG,FireRate,Spread,BulletAmount,BulletSpeed,Knockback,Special;
+    public float DMG,FireRate,Spread,BulletAmount,BulletSpeed,Knockback,Special;
     private BufferedImage img;
     private PVector location;
 
-    public Weapon(Part1 p1, Part2 p2, Part3 p3){
+    private Bullet b;
+    public FireingBullet FB;
+    public boolean shooting;
+    public boolean rare;
+
+    public Weapon(Part1 p1, Part2 p2, Part3 p3, Player p){
+        shooting=false;
         this.location = new PVector();
         //part1
         this.Special = p1.Special;
@@ -20,35 +26,110 @@ public class Weapon {
         //part2
         this.FireRate = p2.FireRate;
         this.Knockback = p2.Knockback;
-        this.BulletAmount = p2.BulletAmount;
 
         //part3
+        this.BulletAmount = p3.BulletAmount;
         this.Spread = p3.Spread;
         this.BulletSpeed = p3.BulletSpeed;
+
+        if(p1.Rarity == 6 || p2.Rarity == 6 || p3.Rarity == 6)
+            this.rare=true;
+        FB = new FireingBullet(500, new PVector(p.mov.location.getx()+p.width/2, p.mov.location.gety()+p.height/2+10),this);
 
         getSprite();
     }
     public void getSprite(){
-        try {
-            Random r = new Random();
-            int temp = r.nextInt(10);
-            if(temp <11){
-                String imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\gun1.png";
-                img = ImageIO.read(new File(imgpath));                
-            }
+        Random r = new Random();
+        if(!rare){
+            try {
+                int temp = r.nextInt(7);
+                String imgpath;
+                switch (temp) {
+                    case 1:
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Normalgun1.png";
+                        img = ImageIO.read(new File(imgpath));                
+                        break;
 
-        } catch (Exception e) {
-            System.out.println("cant get texture");
-            System.exit(1);
+                    case 2:
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Normalgun2.png";
+                        img = ImageIO.read(new File(imgpath));  
+                        break;
+
+                    case 3:
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Normalgun3.png";
+                        img = ImageIO.read(new File(imgpath));  
+                        break;
+
+                    case 4:
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Normalgun4.png";
+                        img = ImageIO.read(new File(imgpath));  
+                        break;
+                    case 5:
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Normalgun5.png";
+                        img = ImageIO.read(new File(imgpath));  
+                        break;
+                    case 6:
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Normalgun6.png";
+                        img = ImageIO.read(new File(imgpath));  
+                        break;
+                    case 7:
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Normalgun7.png";
+                        img = ImageIO.read(new File(imgpath));  
+                        break;
+                    default:
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\gun1.png";
+                        img = ImageIO.read(new File(imgpath));
+                        break;
+                }
+            } catch (Exception e) {
+                System.out.println("cant get texture");
+                System.exit(1);
+            }
+        }else {
+            try {
+                int temp = r.nextInt(2);
+                String imgpath;
+                switch (temp) {
+                    case 0:
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Ultragun1.png";
+                        img = ImageIO.read(new File(imgpath));                
+                        break;
+
+                    case 1:
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Ultragun2.png";
+                        img = ImageIO.read(new File(imgpath));  
+                        break;
+
+                    case 2:
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Ultragun3.png";
+                        img = ImageIO.read(new File(imgpath));  
+                        break;
+                    }
+            } catch (Exception e) {
+                System.out.println("cant get texture");
+                System.exit(1);
+            }
         }
     }
+
     public void drawgun(Graphics g, Player p,float angle){
         Graphics2D gg = (Graphics2D) g.create();
         gg.translate(p.mov.location.getx()+p.width/2, p.mov.location.gety()+p.height/2+10);
         gg.rotate(angle);
         gg.drawImage(img, 0,0, null);
+
+        if(b!=null && !b.isdead())
+            b.draw(g);
+
+        FB.draw(g);
+        gg.dispose();
     }
-    public void shoot(Player p){
-        //fuck idk man
+    public void update(PVector mouse,Player p){
+        FB.update(this,mouse,p);
+        if(b!=null && !b.isdead())
+        b.update();
     }
+    public void shot(Player p,PVector mouse){
+    }
+
 }

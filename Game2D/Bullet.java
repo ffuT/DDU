@@ -3,19 +3,18 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 public class Bullet extends mover {
-    int width=10,height=10;
+    int width=5,height=5;
     float lifepsan;
     Color c;
 
     //mass is irrelevant
-    public Bullet(int x, int y, float mass, Color c, float life) {
+    public Bullet(int x, int y, float mass, Color c, float life, PVector velocity) {
         super(x, y, mass);
         this.doesbounce = false;
         this.staybounds = false;
-        this.aVelocity = 1.5f;
-        this.acceleration = new PVector(2.1f,0);
         this.c = c;
-        this.lifepsan = life;
+        this.lifepsan = life;     
+        this.velocity = velocity;
     }
 
     @Override
@@ -28,11 +27,9 @@ public class Bullet extends mover {
         if(isdead())
             return;
         Graphics2D gg = (Graphics2D) g.create();
-        
         gg.setColor(c);
         gg.translate(location.x, location.y);
-        gg.rotate(toRadians.toRad(angle));
-        gg.fillRect(0-width/2,0-height/2, width, height);
+        gg.fillOval(0-width/2,0-height/2, width, height);
         gg.dispose();
     }
 

@@ -20,9 +20,9 @@ class Display extends Canvas implements Runnable  {
     public Player p;
 
     //temporary gun
-    private Part1 p1 = new Part1();
-    private Part2 p2 = new Part2();
-    private Part3 p3 = new Part3();
+    private Part1 p1 = new Part1(6);
+    private Part2 p2 = new Part2(6);
+    private Part3 p3 = new Part3(6);
     private Weapon gun;
     public float gunangle;
     public PVector MLocation;
@@ -40,7 +40,7 @@ class Display extends Canvas implements Runnable  {
         //setup values here
         room = new Room();
         p = new Player(StartHP,5f);
-        gun = new Weapon(p1, p2, p3);
+        gun = new Weapon(p1, p2, p3,p);
         new Window(WIDTH,HEIGHT,"SPRITE MAN ADVENTURES",this);
 
         input = new InputHandler();
@@ -73,6 +73,7 @@ class Display extends Canvas implements Runnable  {
         double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
+        requestFocus();
         while(running){
             long now = System.nanoTime();
             delta += (now - lastTime) / ns;
@@ -95,18 +96,29 @@ class Display extends Canvas implements Runnable  {
     }
     public void Tick(){
         //game updates here
-        room.UpdateRoom(p);
+        room.UpdateRoom(p,gun);
 
         //gun movement
-        MLocation = new PVector(input.mouseX,input.mouseY);
         gunangle = (float) Math.atan2(MLocation.y-p.mov.location.y-p.height/2,MLocation.x-p.mov.location.x-p.width/2);
         
         //mouseclicks
+        float bulletangle;
+
         if(input.mouseClicked){
-            gun.shoot(p);
+            gun.shot(p,new PVector(MLocation.x-p.mov.location.x-p.width/2,MLocation.y-p.mov.location.y-p.height/2));
+            gun.shooting = true;
+        }        
+        gun.update(new PVector(MLocation.x-p.mov.location.x-p.width/2,MLocation.y-p.mov.location.y-p.height/2),p);
+
+        if(input.mouseReleased){
+            gun.shooting=false;
         }
+        
         input.mouseClicked=false;
         input.mouseReleased=false;
+
+        //input.mouseClicked=false;
+        //input.mouseReleased=false;
 
         //movement
         game.tick(input.key);
@@ -116,12 +128,13 @@ class Display extends Canvas implements Runnable  {
         p.mov.velocity.add(move);
         p.update();
 
-        if(p.hitBox(new PVector(500,500))){
-            p.hitpoints--;
+        if(p.hitBox(new PVector(25,72),new PVector(271,107))){
+            p.hitpoints-=0.01f;
         }
     }
 
     private void render(){
+        MLocation = new PVector(input.mouseX,input.mouseY);
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null){
             this.createBufferStrategy(2);
@@ -150,7 +163,7 @@ class Display extends Canvas implements Runnable  {
                 g.fillRect(0, 0, WIDTH, HEIGHT);
             }
 
-        //draw objects here
+        //draw objects here 
         p.draw(g);
         room.drawRoom(g);
         gun.drawgun(g, p, gunangle);
@@ -166,9 +179,6 @@ class Display extends Canvas implements Runnable  {
         }        
         */
 
-
-        g.setColor(Color.pink);
-        g.fillRect(500, 500, 10, 10);
         //Walls
         g.setColor(Color.black);
         //left
@@ -188,6 +198,16 @@ class Display extends Canvas implements Runnable  {
         g.drawString("VelY: " + p.mov.velocity.y , 15, 55);
         g.drawString("HP: " + p.hitpoints , 15, 70);
         g.drawString("last door: " + room.prevdoor, 15, 85);
+
+        g.drawString("location x,y: " + p.mov.location.getx() + " " + p.mov.location.gety(), 15, 100);
+        g.drawString("location x2,y2: " + (p.mov.location.getx()+p.width) + " " + (p.mov.location.gety()+p.height), 15, 115);
+
+        g.drawString("Gun DMG: " + gun.DMG, 15, 100+50);
+        g.drawString("Gun Spread: " + gun.Spread, 15, 115+50);
+        g.drawString("Gun firerate: " + gun.FireRate, 15, 130+50);
+        g.drawString("Gun Bulletspeed: " + gun.BulletSpeed, 15, 145+50);
+        g.drawString("Gun fireing: " + gun.FB.fireing, 15, 160+50);
+        g.drawString("Gun Bulletamount: " + gun.BulletAmount, 15, 175+50);
 
         g.dispose();
         bs.show();

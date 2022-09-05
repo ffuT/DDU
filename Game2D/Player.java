@@ -61,15 +61,13 @@ public class Player {
             return false;
         }
     }
-    public boolean hitBox(PVector point, PVector point2){
-        if(point.x >= mov.location.x && point.x <= mov.location.x+width &&
-        point.y >= mov.location.y && point.y <= mov.location.y+height){
-            return true;
-        } else if(point2.x >= mov.location.x && point2.x <= mov.location.x+width &&
-        point2.y >= mov.location.y && point2.y <= mov.location.y+height){
-            return true;
-        }else{
+    public boolean hitBox(PVector point1, PVector point2){
+        //player
+        float playerX1=mov.location.x, playerX2=mov.location.x+width;
+        float playerY1=mov.location.y, playerY2=mov.location.y+height;
+        if(playerX1 > point2.x || playerX2 < point1.x || playerY1 > point2.y || playerY2 < point1.y){
             return false;
-        }
+        } 
+        return true;
     }
 }

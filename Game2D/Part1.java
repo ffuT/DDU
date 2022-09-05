@@ -28,6 +28,13 @@ public class Part1 {
         }
         getstats();
     }
+
+    public Part1(int i){
+        r = new Random();
+        this.Rarity = i;
+        getstats();
+    }
+
     public void drawpart(Graphics g){
         Graphics2D gg = (Graphics2D) g.create();
 

@@ -7,6 +7,7 @@ public class Part3 {
     public int Rarity;
     float Spread;
     float BulletSpeed;
+    int BulletAmount;
 
     public Part3(){
         r = new Random();
@@ -28,6 +29,13 @@ public class Part3 {
         }
         getstats();
     }
+
+    public Part3(int i){
+        r = new Random();
+        this.Rarity = i;
+        getstats();
+    }
+
     public void drawpart(Graphics g){
         Graphics2D gg = (Graphics2D) g.create();
 
@@ -37,28 +45,34 @@ public class Part3 {
     private void getstats(){
         switch (Rarity) {
             case 1:
-                this.Spread = 10;
-                this.BulletSpeed = 10;
+                this.Spread = 0.09f;
+                this.BulletSpeed = 6;
+                this.BulletAmount = 1;
                 break;
             case 2:
-                this.Spread = 10 - r.nextFloat();
-                this.BulletSpeed = 10 + r.nextFloat();
+                this.Spread = 0.07f - r.nextFloat(0.002f);
+                this.BulletSpeed = 7 + r.nextFloat()*2;
+                this.BulletAmount = 1;
                 break;
             case 3:
-                this.Spread = 10 - r.nextFloat()*2;
-                this.BulletSpeed = 10 + r.nextFloat()*2;
+                this.Spread = 0.07f - r.nextFloat(0.003f)*2;
+                this.BulletSpeed = 8 + r.nextFloat()*3;
+                this.BulletAmount = r.nextInt(1)+1;
                 break;
             case 4:
-                this.Spread = 9 - r.nextFloat()*3;
-                this.BulletSpeed = 10 + r.nextFloat()*3;
+                this.Spread = 0.04f - r.nextFloat(0.004f)*2;
+                this.BulletSpeed = 9 + r.nextFloat()*4;
+                this.BulletAmount = r.nextInt(1)+2;
                 break;
             case 5:
-                this.Spread = 9 - r.nextFloat()*4;
-                this.BulletSpeed = 10 + r.nextFloat()*4;
+                this.Spread = 0.04f - r.nextFloat(0.005f)*2;
+                this.BulletSpeed = 10 + r.nextFloat()*5;
+                this.BulletAmount = r.nextInt(1)+2;
                 break;
             case 6:
-                this.Spread = 9 - r.nextFloat()*10;
+                this.Spread = 0.04f - r.nextFloat(0.005f)*5;
                 this.BulletSpeed = 10 + r.nextFloat()*10;
+                this.BulletAmount = r.nextInt(2)+3;
                 break;
             default:
                 break;
