@@ -12,12 +12,15 @@ public class InputHandler implements KeyListener, FocusListener, MouseListener, 
     public int mouseY;
     public boolean mouseClicked;
     public boolean mouseReleased;
+    public boolean mclick;
+    public boolean mdrag;
     
     @Override
     public void mouseDragged(MouseEvent e) {
         mouseX = e.getX();
         mouseY = e.getY();
         mouseClicked = true;
+        mdrag=true;
     }
 
     @Override
@@ -29,11 +32,14 @@ public class InputHandler implements KeyListener, FocusListener, MouseListener, 
     @Override
     public void mouseClicked(MouseEvent e) {
         mouseClicked = true;
+        mclick=true;
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         mouseReleased = true;
+        mclick=false;
+        mdrag=false;
     }
 
     @Override

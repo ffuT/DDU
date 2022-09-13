@@ -13,6 +13,9 @@ public class Room {
         prevdoor=0;
     }
     public void UpdateRoom(Player p,Weapon gun){
+        if(b!=null)
+        b.update();
+
         if(prevdoor !=3 && p.hitBox(new PVector(Display.WIDTH-37,Display.HEIGHT/2),
         new PVector(Display.WIDTH-27,Display.HEIGHT/2+20))){
             Right++;
@@ -37,12 +40,20 @@ public class Room {
             p.mov.location = new PVector( p.mov.location.x,10);
         }
     }
+    Barrel b;
     public void newRoom(Weapon gun){
+       b=new Barrel(0, 0);
+       b.setx(500);
+       b.sety(500);
         gun.FB.resetBullets();
-        System.out.println("blyat");
+        System.out.println("new room");
+        
     }
 
     public void drawRoom(Graphics g){
+        if(b!=null)
+        b.draw(g);
+
         if(Right==5){
         Graphics2D gg = (Graphics2D) g.create();
         gg.setColor(Color.blue);
@@ -54,16 +65,16 @@ public class Room {
         gg.setColor(Color.orange);
 
         if(prevdoor !=3){
-            gg.drawRect(Display.WIDTH-37, Display.HEIGHT/2, 10, 20);
+            gg.fillRect(Display.WIDTH-37, Display.HEIGHT/2, 10, 20);
         }
         if(prevdoor !=2 ){
-            gg.drawRect(Display.WIDTH/2, 11, 20, 10);
+            gg.fillRect(Display.WIDTH/2, 11, 20, 10);
         } 
         if(prevdoor !=1){
-            gg.drawRect(10, Display.HEIGHT/2, 10,20);
+            gg.fillRect(10, Display.HEIGHT/2, 10,20);
         }
         if(prevdoor !=4){
-            gg.drawRect(Display.WIDTH/2, Display.HEIGHT-60, 20, 10);
+            gg.fillRect(Display.WIDTH/2, Display.HEIGHT-60, 20, 10);
         }
             gg.dispose();
     }

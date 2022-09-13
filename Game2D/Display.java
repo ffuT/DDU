@@ -18,12 +18,8 @@ class Display extends Canvas implements Runnable  {
 
     public Room room;
     public Player p;
-
     //temporary gun
-    private Part1 p1 = new Part1(1);
-    private Part2 p2 = new Part2(1);
-    private Part3 p3 = new Part3(1);
-    private Weapon gun;
+    public Weapon gun;
     public float gunangle;
     public PVector MLocation;
 
@@ -41,11 +37,16 @@ class Display extends Canvas implements Runnable  {
 
     public Display(){
         //setup values here
-        inven = new Inventory();
         MLocation = new PVector();
         room = new Room();
-        p = new Player(StartHP,5f);
-        gun = new Weapon(p1, p2, p3,p);
+        p = new Player(StartHP,4f);
+        inven = new Inventory(p);
+        inven.addtoinventory(5);
+        inven.addtoinventory(12);
+        inven.addtoinventory(10);
+        inven.gunslot.gun=new Weapon(new Part1(6), new Part2(6), new Part3(6));
+        System.out.println(inven.gunslot.gun.rare);
+        gun = inven.gunslotE.gun;
         new Window(WIDTH,HEIGHT,"SPRITE MAN ADVENTURES",this);
 
         input = new InputHandler();
@@ -99,15 +100,24 @@ class Display extends Canvas implements Runnable  {
         }
         stop();
     }
+    public float gametime=0;
     public void Tick(){
         game.tick(input.key);
 
-        //stops game when in inventory
-        if(game.control.inventory)
+        if(game.control.inventory){
+            inven.update();
+            PVector mouse = new PVector(input.mouseX,input.mouseY);
+            inven.Selected(mouse,input.mclick,input.mdrag,input.mouseReleased);
+
+            input.mclick=false;
+            //stops game when in inventory
             return;
+        }
         //game updates here
+        gametime++;
         room.UpdateRoom(p,gun);
 
+        gun = inven.gunslotE.gun;
         //gun movement
         gunangle = (float) Math.atan2(MLocation.y-p.mov.location.y-p.height/2,MLocation.x-p.mov.location.x-p.width/2);
         
@@ -155,23 +165,22 @@ class Display extends Canvas implements Runnable  {
             gg.setColor(Color.gray);
             
             gg.fillRect(0, 0, WIDTH, HEIGHT);
-
             //draw inventory object here
-            inven.drawInventory(g);
-            for(int i =0;i<=5;i++){
-                System.out.print(inven.slots[i].Item + " ");
-            }
-            System.out.println("");
-
-
+            inven.drawInventory(g,MLocation);
             DrawHealthbar(g);
+
+            gg.setColor(Color.black);
+            gg.drawString("inventory slots", 100, HEIGHT/4*3-5);
+            gg.drawString("Crafting table", WIDTH/2+100, 95);
+            gg.drawString("weapon slots", 800, HEIGHT/4*3-5);
+            gg.drawString("equipped weapon", 1100, HEIGHT/4*3-5);
             gg.dispose();
         }else {
             //renders game when not in inventory
             try {
                 Graphics2D gg = (Graphics2D) g.create();
 
-                String imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\Floor2.png";
+                String imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Floor2.png";
                 BufferedImage img = ImageIO.read(new File(imgpath));
                 gg.drawImage(img, 0, 0, null);
                     
@@ -181,16 +190,16 @@ class Display extends Canvas implements Runnable  {
         
             DrawHealthbar(g);
 
-        //draw objects here 
+        //draw objects here
+        room.drawRoom(g); 
         p.draw(g);
-        room.drawRoom(g);
         gun.drawgun(g, p, gunangle);
         room.drawdoors(g);
 
         }
 
-
-                /* guide lines
+        //guide lines every 10pix
+        /* 
         g.setColor(Color.gray);
         for(int i = 1; i<=WIDTH;i+=10){
             g.drawLine(i, 0, i, HEIGHT);
@@ -221,9 +230,11 @@ class Display extends Canvas implements Runnable  {
         g.drawString("VelY: " + p.mov.velocity.y , 15, 55);
         g.drawString("HP: " + p.hitpoints , 15, 70);
         g.drawString("last door: " + room.prevdoor, 15, 85);
+        String gametime2 = String.format( "%.2f", gametime/60);
+        g.drawString("gametime " + gametime2, 15, 100);
 
-        g.drawString("location x,y: " + p.mov.location.getx() + " " + p.mov.location.gety(), 15, 100);
-        g.drawString("location x2,y2: " + (p.mov.location.getx()+p.width) + " " + (p.mov.location.gety()+p.height), 15, 115);
+       // g.drawString("location x,y: " + p.mov.location.getx() + " " + p.mov.location.gety(), 15, 100);
+       // g.drawString("location x2,y2: " + (p.mov.location.getx()+p.width) + " " + (p.mov.location.gety()+p.height), 15, 115);
 
         g.drawString("Gun DMG: " + gun.DMG, 15, 100+50);
         g.drawString("Gun Spread: " + gun.Spread, 15, 115+50);
@@ -239,7 +250,7 @@ class Display extends Canvas implements Runnable  {
         try{
             Graphics2D gg = (Graphics2D) g.create();
             
-            String imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\HEALTHVBAR OF DOOM.png";
+            String imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\HEALTHVBAR OF DOOM.png";
             BufferedImage img = ImageIO.read(new File(imgpath));
             gg.setColor(Color.red);
             float HPWidth = (p.hitpoints/StartHP) * 246;
