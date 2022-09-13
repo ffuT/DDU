@@ -1,13 +1,22 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.File;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
+import java.util.Random;
 
 public class Barrel {
+    private Random r = new Random();
     public BufferedImage img;
     public int x,y;
+    public boolean isalive;
+    public boolean explode;
+    public int explosion=60;
+
     public Barrel(int x, int y){
+        isalive=true;
+        explode=false;
         this.x=x*4;
         this.y=y*4;
         try {
@@ -26,23 +35,45 @@ public class Barrel {
     }
 
     public void draw(Graphics g){
-        Graphics2D gg = (Graphics2D) g.create();            
-        gg.scale(0.25, 0.25);
-        gg.drawImage(img, x, y,null);
-
+        Graphics2D gg = (Graphics2D) g.create();
+        gg.scale(0.25, 0.25); 
+        if(isalive){
+            gg.drawImage(img, x, y,null);
+        }
+        if(explode){
+            for(int i =0;i<=10;i++){
+                gg.setColor(Color.red);
+                int rn= r.nextInt(50);
+                gg.fillOval(x+img.getWidth()/2-(400-rn)/2, y+img.getHeight()/2-(400-rn)/2, 400-rn, 400-rn);            
+                if(explosion>=30){
+                    int rn2 = r.nextInt(100);
+                    gg.setColor(Color.orange);
+                    gg.fillOval(x+img.getWidth()/2-(750-rn2)/2, y+img.getHeight()/2-(750-rn2)/2, 750-rn2, 750-rn2);
+                }
+                    explosion--;
+            }
+            if(explosion<=0)
+            explode=false;
+        }
     }
-    public void update(){
-        /* 
-         * if hitbox bullet
-         * draw explos
-         * stop draw barrel
-         * deal damage
-         */
-    }
 
+    public void update(Weapon gun){
+        for (int i=0;i<=gun.FB.Particles.size()-1;i++) {
+            if(gun.FB.Particles.get(i).hitBox(new PVector(x/4,y/4), new PVector(x/4+img.getWidth()/4,y/4+img.getHeight()/4))){ 
+                if(isalive)
+                    gun.FB.Particles.remove(gun.FB.Particles.get(i));
+                Explode();
+                isalive=false;
+                //deal damage here
+            }
+        }
+    }
 
     //damage and destroy!!
-    public void explode(){
-
+    public void Explode(){
+        if(!isalive)
+            return;
+        explode=true;
+        //damage nearby cretures/boxes
     }
 }

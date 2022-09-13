@@ -15,7 +15,6 @@ class Display extends Canvas implements Runnable  {
     private Thread thread;
     private boolean running = false;
     private int FPS;
-
     public Room room;
     public Player p;
     //temporary gun
@@ -262,7 +261,6 @@ class Display extends Canvas implements Runnable  {
                 //background 
                 g.setColor(Color.lightGray);
                 g.fillRect(0, 0, WIDTH, HEIGHT);
-            }
+        }
     }
-
 }

@@ -9,8 +9,8 @@ public class FireingBullet{
     private float DMG,FireRate,Spread,BulletAmount,BulletSpeed,Knockback,Special;
 
     private Color c = Color.black;
-    private ArrayList<Bullet> Particles;
     private float lifespan;
+    public ArrayList<Bullet> Particles;
     public boolean fireing =  false;
     public PVector origin;
     

@@ -13,52 +13,76 @@ public class Room {
         prevdoor=0;
     }
     public void UpdateRoom(Player p,Weapon gun){
-        if(b!=null)
-        b.update();
+        int deadcount=0;
+        if(e!=null)
+        for (Enemy e : e) {
+           e.update(gun);
+            if(!e.isalive){
+                deadcount++;
+            }
+        }
 
-        if(prevdoor !=3 && p.hitBox(new PVector(Display.WIDTH-37,Display.HEIGHT/2),
+        if(b!=null)
+        for (Barrel b : b) {
+            b.update(gun);          
+        }
+        if(e==null){
+            e=new Enemy[0];
+        }
+        if(deadcount>e.length-1 && prevdoor !=3 && p.hitBox(new PVector(Display.WIDTH-37,Display.HEIGHT/2),
         new PVector(Display.WIDTH-27,Display.HEIGHT/2+20))){
             Right++;
             prevdoor=1;
             newRoom(gun);
             p.mov.location = new PVector( 15,p.mov.location.y);
-        }else if(prevdoor !=2 && p.hitBox(new PVector(Display.WIDTH/2,11),
+        }else if(deadcount>e.length-1 &&prevdoor !=2 && p.hitBox(new PVector(Display.WIDTH/2,11),
         new PVector(Display.WIDTH/2+20,21))){
             prevdoor=4;
             newRoom(gun);
             p.mov.location = new PVector( p.mov.location.x,Display.HEIGHT-15);
-        } else if(prevdoor !=1 && p.hitBox(new PVector(10,Display.HEIGHT/2),
+        } else if(deadcount>e.length-1 &&prevdoor !=1 && p.hitBox(new PVector(10,Display.HEIGHT/2),
         new PVector(20,Display.HEIGHT/2+20))){
             Right--;
             prevdoor=3;
             newRoom(gun);
             p.mov.location = new PVector( Display.WIDTH-100,p.mov.location.y);
-        }else if(prevdoor !=4 && p.hitBox(new PVector(Display.WIDTH/2,Display.HEIGHT-60),
+        }else if(deadcount>e.length-1 &&prevdoor !=4 && p.hitBox(new PVector(Display.WIDTH/2,Display.HEIGHT-60),
         new PVector(Display.WIDTH/2+20,Display.HEIGHT-50))){
             prevdoor=2;
             newRoom(gun);
             p.mov.location = new PVector( p.mov.location.x,10);
         }
     }
-    Barrel b;
+    Barrel[] b;
+    Enemy[] e;
     public void newRoom(Weapon gun){
-       b=new Barrel(0, 0);
-       b.setx(500);
-       b.sety(500);
+        int barrelamount = r.nextInt(4)+2;
+        b = new Barrel[barrelamount];
+        for(int i = 0; i <= barrelamount-1; i++){
+            b[i] = new Barrel(r.nextInt(Display.WIDTH-100),r.nextInt(Display.HEIGHT-100));
+        }
+
+        int enemyamount = r.nextInt(4)+2;
+        e = new Enemy1[enemyamount];
+        for(int i = 0; i <= enemyamount-1; i++){
+            e[i] = new Enemy1(r.nextInt(Display.WIDTH-100),r.nextInt(Display.HEIGHT-100),5+Right*2);
+        }
+
         gun.FB.resetBullets();
         System.out.println("new room");
-        
     }
 
     public void drawRoom(Graphics g){
+        //draws all barrels
         if(b!=null)
-        b.draw(g);
-
-        if(Right==5){
-        Graphics2D gg = (Graphics2D) g.create();
-        gg.setColor(Color.blue);
-        gg.fillRect(500, 400, 100, 100);
+        for (Barrel b : b) {
+            b.draw(g);
         }
+        //should draw all enemies
+        if(e!=null)
+            for (Enemy e : e) {
+                e.draw(g);
+            }
     } 
     public void drawdoors(Graphics g){
         Graphics2D gg = (Graphics2D) g.create();
