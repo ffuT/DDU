@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.File;
@@ -24,6 +25,9 @@ public class Gunslot extends inventoryslot {
         Graphics2D gg = (Graphics2D) g.create();
         gg.scale(1, 1);
         gg.drawRect(x, y, 100, 100);
+        gg.setColor(Color.red);
+        gg.drawLine(x+40, y+100, x+60, y+120);
+        gg.drawLine(x+60, y+100, x+40, y+120);
         
         if(gun != null)
         try {

@@ -56,10 +56,11 @@ public class PVector {
         y = y / n;
     }
     public void normalize(){
+        mag();
         float m = mag;
         if (m != 0) {
-        div(m);
- }
+            div(m);
+        }
     }
     public PVector get(){
         return new PVector(this.x, this.y);

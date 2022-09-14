@@ -20,7 +20,7 @@ public class Barrel {
         this.x=x*4;
         this.y=y*4;
         try {
-            img = ImageIO.read(new File("C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Exsplosive_barrel.png"));   
+            img = ImageIO.read(new File("C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\Exsplosive_barrel.png"));   
         } catch (Exception e) {
             System.out.println("cant get barrel texture");
         }
@@ -74,6 +74,18 @@ public class Barrel {
         if(!isalive)
             return;
         explode=true;
-        //damage nearby cretures/boxes
+    }
+
+    //it dont work
+    public Boolean hitBoxSPH(PVector p1, PVector p2){
+        PVector origin = new PVector(x/4+img.getWidth()/4/2,y/4+img.getHeight()/4/2);
+        if(Math.sqrt((origin.x-p1.x)*(origin.x-p1.x)+(origin.y-p1.y)*(origin.y-p1.y))<375/4 ||
+        Math.sqrt((origin.x-p2.x)*(origin.x-p2.x)+(origin.y-p1.y)*(origin.y-p1.y))<375/4 ||
+        Math.sqrt((origin.x-p2.x)*(origin.x-p2.x)+(origin.y-p2.y)*(origin.y-p2.y))<375/4 ||
+        Math.sqrt((origin.x-p1.x)*(origin.x-p1.x)+(origin.y-p2.y)*(origin.y-p2.y))<375/4){
+            return true;
+        }
+        return false;
+        
     }
 }

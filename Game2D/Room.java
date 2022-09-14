@@ -16,7 +16,7 @@ public class Room {
         int deadcount=0;
         if(e!=null)
         for (Enemy e : e) {
-           e.update(gun);
+            e.update(gun,p);
             if(!e.isalive){
                 deadcount++;
             }
@@ -24,8 +24,16 @@ public class Room {
 
         if(b!=null)
         for (Barrel b : b) {
-            b.update(gun);          
-        }
+            b.update(gun);
+            if(b.explode &&  b.hitBoxSPH(p.mov.location, new PVector(p.mov.location.x+p.width,p.mov.location.y+p.height))){
+                p.hitpoints-=1;
+            }
+            for (Enemy e : e) {
+                if(b.explode &&  b.hitBoxSPH(new PVector(e.x/4,e.y/4), new PVector(e.x/4+e.img.getWidth()/4,e.y/4+e.img.getHeight()/4)))
+                    e.health-=3;
+            }   
+
+            }
         if(e==null){
             e=new Enemy[0];
         }
@@ -53,6 +61,7 @@ public class Room {
             p.mov.location = new PVector( p.mov.location.x,10);
         }
     }
+
     Barrel[] b;
     Enemy[] e;
     public void newRoom(Weapon gun){
@@ -62,10 +71,14 @@ public class Room {
             b[i] = new Barrel(r.nextInt(Display.WIDTH-100),r.nextInt(Display.HEIGHT-100));
         }
 
-        int enemyamount = r.nextInt(4)+2;
-        e = new Enemy1[enemyamount];
+        int enemyamount = r.nextInt(4)+2+Right/4;
+        e = new Enemy[enemyamount];
         for(int i = 0; i <= enemyamount-1; i++){
-            e[i] = new Enemy1(r.nextInt(Display.WIDTH-100),r.nextInt(Display.HEIGHT-100),5+Right*2);
+            if(r.nextBoolean()){
+                e[i] = new Enemy1(r.nextInt(Display.WIDTH-100),r.nextInt(Display.HEIGHT-100),5+Right*2); 
+            } else{
+                e[i] = new Enemy2(r.nextInt(Display.WIDTH-100),r.nextInt(Display.HEIGHT-100),10+Right*2); 
+            }
         }
 
         gun.FB.resetBullets();

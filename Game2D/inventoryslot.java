@@ -4,7 +4,6 @@ import java.io.File;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
-
 public class inventoryslot {
     public int Item=0,x,y;
     public String imgPath;
@@ -13,9 +12,7 @@ public class inventoryslot {
     public Part2 p2;
     public Part3 p3;
 
-
     public inventoryslot(int n,int x,int y){
-
         this.p1 = null;
         this.p2 = null;
         this.p3 = null; 
@@ -30,7 +27,7 @@ public class inventoryslot {
         gg.scale(1, 1);
         gg.drawRect(x, y, 100, 100);
         
-        imgPath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\";
+        imgPath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\";
         try {
             BufferedImage img;
         switch (Item) {
@@ -191,9 +188,9 @@ public class inventoryslot {
 
         } catch (Exception e) {
         System.out.println("inventory textures cant load");
+        System.exit(1);
         }
         
-
         gg.dispose();
     }
     public void copyslot(inventoryslot slot2){

@@ -15,8 +15,10 @@ class Display extends Canvas implements Runnable  {
     private Thread thread;
     private boolean running = false;
     private int FPS;
+    private boolean mainmenu = true;
     public Room room;
     public Player p;
+
     //temporary gun
     public Weapon gun;
     public float gunangle;
@@ -25,9 +27,9 @@ class Display extends Canvas implements Runnable  {
     private InputHandler input;
     private Game game = new Game();
     private PVector move = new PVector();
-    private float StartHP=100;
+    private float StartHP = 100;
 
-    //inventory ???
+    //inventory
     private Inventory inven;
 
     public static void main(String[] args) {
@@ -101,17 +103,23 @@ class Display extends Canvas implements Runnable  {
     }
     public float gametime=0;
     public void Tick(){
+        PVector mouse = new PVector(input.mouseX,input.mouseY);
         game.tick(input.key);
+
+        if(mainmenu){
+            return;
+        }
 
         if(game.control.inventory){
             inven.update();
-            PVector mouse = new PVector(input.mouseX,input.mouseY);
+            
             inven.Selected(mouse,input.mclick,input.mdrag,input.mouseReleased);
 
             input.mclick=false;
             //stops game when in inventory
             return;
         }
+
         //game updates here
         gametime++;
         room.UpdateRoom(p,gun);
@@ -121,7 +129,7 @@ class Display extends Canvas implements Runnable  {
         gunangle = (float) Math.atan2(MLocation.y-p.mov.location.y-p.height/2,MLocation.x-p.mov.location.x-p.width/2);
         
         //mouseclicks
-        if(input.mouseClicked){
+        if(input.mpres){
             gun.shot(p,new PVector(MLocation.x-p.mov.location.x-p.width/2,MLocation.y-p.mov.location.y-p.height/2));
             gun.shooting = true;
         }        
@@ -158,7 +166,29 @@ class Display extends Canvas implements Runnable  {
         }
         Graphics g = bs.getDrawGraphics(); 
         
-        //renders inventory
+
+    if(mainmenu){
+        Graphics2D ggg = (Graphics2D) g.create();
+        try {
+            ggg.setColor(Color.black);
+            ggg.fillRect(0, 0, WIDTH, HEIGHT);
+            String imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\start.png";
+            BufferedImage img = ImageIO.read(new File(imgpath));
+            ggg.drawImage(img, WIDTH/2-img.getWidth()/2, HEIGHT/2-img.getHeight()/2,null);
+
+            if(input.mpres && input.mouseX >WIDTH/2-img.getWidth()/2 &&
+             input.mouseX<WIDTH/2-img.getWidth()/2+img.getWidth()
+             && input.mouseY > HEIGHT/2-img.getHeight()/2
+             && input.mouseY < HEIGHT/2-img.getHeight()/2+img.getHeight()){
+                mainmenu=false;
+             }
+
+
+
+        } catch (Exception e) {
+            System.out.println("main menu wont load");
+        }
+    } else //renders inventory
         if(game.control.inventory){
             Graphics2D gg = (Graphics2D) g.create();
             gg.setColor(Color.gray);
@@ -179,7 +209,7 @@ class Display extends Canvas implements Runnable  {
             try {
                 Graphics2D gg = (Graphics2D) g.create();
 
-                String imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Floor2.png";
+                String imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\Floor2.png";
                 BufferedImage img = ImageIO.read(new File(imgpath));
                 gg.drawImage(img, 0, 0, null);
                     
@@ -249,7 +279,7 @@ class Display extends Canvas implements Runnable  {
         try{
             Graphics2D gg = (Graphics2D) g.create();
             
-            String imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\HEALTHVBAR OF DOOM.png";
+            String imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\HEALTHVBAR OF DOOM.png";
             BufferedImage img = ImageIO.read(new File(imgpath));
             gg.setColor(Color.red);
             float HPWidth = (p.hitpoints/StartHP) * 246;

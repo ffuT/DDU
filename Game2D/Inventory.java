@@ -99,6 +99,7 @@ public class Inventory {
             return;
         }
     }
+    
     public void zeroslots(){
         for(inventoryslot i: craftslots){
             i.Item=0;
@@ -109,6 +110,14 @@ public class Inventory {
         tempslot.x = (int) mouse.x;
         tempslot.y = (int) mouse.y;
 
+        //remove guns when click
+        if(click && mouse.x > gunslot.x+40 && mouse.x < gunslot.x+60 && mouse.y > gunslot.y+100 && mouse.y < gunslot.y+120 ){
+            gunslot = new Gunslot(0, gunslot.x, gunslot.y);
+        }
+        if(click && mouse.x > gunslot2.x+40 && mouse.x < gunslot2.x+60 && mouse.y > gunslot2.y+100 && mouse.y < gunslot2.y+120 ){
+            gunslot2 = new Gunslot(0, gunslot2.x, gunslot2.y);
+        }
+
         //gunslots
         if(click && gunslot.gun !=null  && mouse.x > gunslot.x && mouse.x < gunslot.x+100 && mouse.y > gunslot.y && mouse.y < gunslot.y+100){
             if(gunslot.gun != null){
@@ -117,6 +126,7 @@ public class Inventory {
                 gunslot.copyslot(tempGunslot);
             }
         }
+
         if(click && gunslot2.gun !=null  && mouse.x > gunslot2.x && mouse.x < gunslot2.x+100 && mouse.y > gunslot2.y && mouse.y < gunslot2.y+100){
             if(gunslot.gun != null){
                 tempGunslot.copyslot(gunslotE);

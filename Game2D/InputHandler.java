@@ -14,6 +14,7 @@ public class InputHandler implements KeyListener, FocusListener, MouseListener, 
     public boolean mouseReleased;
     public boolean mclick;
     public boolean mdrag;
+    public boolean mpres;
     
     @Override
     public void mouseDragged(MouseEvent e) {
@@ -40,11 +41,12 @@ public class InputHandler implements KeyListener, FocusListener, MouseListener, 
         mouseReleased = true;
         mclick=false;
         mdrag=false;
+        mpres=false;
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
+        mpres = true;
         
     }
 
