@@ -10,8 +10,8 @@ public class Enemy {
     protected float y;
     protected float moveSpeed;
     protected boolean isalive;
-
-    protected String imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\";
+    
+    protected String imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\";
     public BufferedImage img;
     public Enemy(int x, int y, float health,String spritename,float movementspeed){
         this.health=health;

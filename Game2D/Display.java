@@ -172,7 +172,7 @@ class Display extends Canvas implements Runnable  {
         try {
             ggg.setColor(Color.black);
             ggg.fillRect(0, 0, WIDTH, HEIGHT);
-            String imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\start.png";
+            String imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\start.png";
             BufferedImage img = ImageIO.read(new File(imgpath));
             ggg.drawImage(img, WIDTH/2-img.getWidth()/2, HEIGHT/2-img.getHeight()/2,null);
 
@@ -209,7 +209,7 @@ class Display extends Canvas implements Runnable  {
             try {
                 Graphics2D gg = (Graphics2D) g.create();
 
-                String imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\Floor2.png";
+                String imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Floor2.png";
                 BufferedImage img = ImageIO.read(new File(imgpath));
                 gg.drawImage(img, 0, 0, null);
                     
@@ -279,7 +279,7 @@ class Display extends Canvas implements Runnable  {
         try{
             Graphics2D gg = (Graphics2D) g.create();
             
-            String imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\HEALTHVBAR OF DOOM.png";
+            String imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\HEALTHVBAR OF DOOM.png";
             BufferedImage img = ImageIO.read(new File(imgpath));
             gg.setColor(Color.red);
             float HPWidth = (p.hitpoints/StartHP) * 246;

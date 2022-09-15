@@ -27,7 +27,7 @@ public class inventoryslot {
         gg.scale(1, 1);
         gg.drawRect(x, y, 100, 100);
         
-        imgPath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\";
+        imgPath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\";
         try {
             BufferedImage img;
         switch (Item) {

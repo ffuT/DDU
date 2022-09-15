@@ -68,37 +68,37 @@ public class Weapon {
                 
                 switch (temp) {
                     case 1:
-                        imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\Normalgun1.png";
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Normalgun1.png";
                         img = ImageIO.read(new File(imgpath));                
                         break;
 
                     case 2:
-                        imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\Normalgun2.png";
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Normalgun2.png";
                         img = ImageIO.read(new File(imgpath));  
                         break;
 
                     case 3:
-                        imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\Normalgun3.png";
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Normalgun3.png";
                         img = ImageIO.read(new File(imgpath));  
                         break;
                     case 4:
-                        imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\Normalgun4.png";
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Normalgun4.png";
                         img = ImageIO.read(new File(imgpath));  
                         break;
                     case 5:
-                        imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\Normalgun5.png";
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Normalgun5.png";
                         img = ImageIO.read(new File(imgpath));  
                         break;
                     case 6:
-                        imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\Normalgun6.png";
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Normalgun6.png";
                         img = ImageIO.read(new File(imgpath));  
                         break;
                     case 7:
-                        imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\Normalgun7.png";
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Normalgun7.png";
                         img = ImageIO.read(new File(imgpath));  
                         break;
                     default:
-                        imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\gun1.png";
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\gun1.png";
                         img = ImageIO.read(new File(imgpath));
                         break;
                 }
@@ -111,17 +111,17 @@ public class Weapon {
                 int temp = r.nextInt(2);
                 switch (temp) {
                     case 0:
-                        imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\Ultragun1.png";
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Ultragun1.png";
                         img = ImageIO.read(new File(imgpath));                
                         break;
 
                     case 1:
-                        imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\Ultragun2.png";
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Ultragun2.png";
                         img = ImageIO.read(new File(imgpath));  
                         break;
 
                     case 2:
-                        imgpath = "C:\\Users\\hille\\OneDrive\\Documents\\gym 3g\\Digital Design\\Code\\DDU\\Game2D\\assets\\Ultragun3.png";
+                        imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Ultragun3.png";
                         img = ImageIO.read(new File(imgpath));  
                         break;
                     }
