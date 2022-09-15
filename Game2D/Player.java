@@ -11,36 +11,41 @@ public class Player {
     public float MSpeed;
     public int width = 61, height = 70;
 
+    private BufferedImage Topimg,Botimg;
+    private String imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\SPRITE_SOLO_MAN.png";
+    private String imgpath2 = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\SPRITE_MANS_SKATEBOARD.png";
+
     Player(float HP, Float movementspeed){
         mov = new mover(50, Display.HEIGHT/2, 10);
         this.hitpoints = HP;
         this.MSpeed = movementspeed;
         mov.objh = height;
         mov.objw = width;
+
+        try {
+            Topimg = ImageIO.read(new File(imgpath));
+            Botimg = ImageIO.read(new File(imgpath2));
+        } catch (Exception e) {
+            System.out.println("player texture cant load");
+            System.exit(1);
+        }
+
+
     }
     public void draw(Graphics g){
         Graphics2D gg = (Graphics2D) g.create();
         gg.setColor(Color.green);
         //gg.translate(Display.WIDTH/2, Display.HEIGHT/2);
         //gg.fillRect(mov.location.getx(), mov.location.gety(), width, height);
-        try {
-            String imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\SPRITE_SOLO_MAN.png";
-            BufferedImage Topimg = ImageIO.read(new File(imgpath));
-            String imgpath2 = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\SPRITE_MANS_SKATEBOARD.png";
-            BufferedImage Botimg = ImageIO.read(new File(imgpath2));
-            if(mov.velocity.x<0){
-                gg.scale(-1, 1);
-                gg.drawImage(Topimg, -mov.location.getx()-width, mov.location.gety(), null);
-                gg.drawImage(Botimg, -mov.location.getx()-width, mov.location.gety()+60, null);
-            } else{
-            gg.drawImage(Topimg, mov.location.getx(), mov.location.gety(), null);
-            gg.drawImage(Botimg, mov.location.getx(), mov.location.gety()+60, null);
-            }
-
-        } catch (Exception e) {
-           System.out.println("files not found");
-           System.exit(1);
+        if(mov.velocity.x<0){
+            gg.scale(-1, 1);
+            gg.drawImage(Topimg, -mov.location.getx()-width, mov.location.gety(), null);
+            gg.drawImage(Botimg, -mov.location.getx()-width, mov.location.gety()+60, null);
+        } else{
+        gg.drawImage(Topimg, mov.location.getx(), mov.location.gety(), null);
+        gg.drawImage(Botimg, mov.location.getx(), mov.location.gety()+60, null);
         }
+
 
         gg.dispose();
     }

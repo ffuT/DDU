@@ -8,11 +8,17 @@ public class Room {
     private int Right;
     public int prevdoor;
     Room(){
-        Right=0;
+        Right=4;
         r = new Random();
         prevdoor=0;
     }
     public void UpdateRoom(Player p,Weapon gun){
+        if(bb!=null){
+            bb.update(p, gun);
+            if(bb.isalive)
+                return;
+        }
+
         int deadcount=0;
         if(e!=null)
         for (Enemy e : e) {
@@ -21,6 +27,12 @@ public class Room {
                 deadcount++;
             }
         }
+
+        if(bo!=null)
+        for (Box bo : bo) {
+            bo.update(gun);
+        }
+           
 
         if(b!=null)
         for (Barrel b : b) {
@@ -64,28 +76,70 @@ public class Room {
 
     Barrel[] b;
     Enemy[] e;
-    public void newRoom(Weapon gun){
-        int barrelamount = r.nextInt(4)+2;
-        b = new Barrel[barrelamount];
-        for(int i = 0; i <= barrelamount-1; i++){
-            b[i] = new Barrel(r.nextInt(Display.WIDTH-100),r.nextInt(Display.HEIGHT-100));
+    Bossman1 bb;
+    Box[] bo;
+    boolean bossmandeafeated=false;
+    public void newRoom(Weapon gun){     
+        switch (Right) {
+            case 5:
+            if(bossmandeafeated)
+                return;    
+            
+                bb = new Bossman1(0,0,200);
+                bb.x = Display.WIDTH/2-bb.img.getWidth()/2;
+                bb.y = Display.HEIGHT/2-bb.img.getHeight()/2;   
+                break;
+        
+            default:
+
+                int boxamount = r.nextInt(3)+2;
+                bo = new Box[boxamount];
+                for(int i = 0; i <= boxamount-1; i++){
+                    bo[i] = new Box(r.nextInt(Display.WIDTH-100)+10,r.nextInt(Display.HEIGHT-100)+10);
+                }
+
+                //bo=new Box(r.nextInt(Display.WIDTH)-100, r.nextInt(Display.HEIGHT)-100);
+
+                //makes random number of barrels
+                int barrelamount = r.nextInt(4)+2;
+                b = new Barrel[barrelamount];
+                for(int i = 0; i <= barrelamount-1; i++){
+                    b[i] = new Barrel(r.nextInt(Display.WIDTH-100)+10,r.nextInt(Display.HEIGHT-100)+10);
+                }
+                //make random number of enemies
+                int enemyamount = r.nextInt(4)+2+Right/4;
+                e = new Enemy[enemyamount];
+                for(int i = 0; i <= enemyamount-1; i++){
+                    if(r.nextBoolean()){
+                        e[i] = new Enemy1(r.nextInt(Display.WIDTH-100),r.nextInt(Display.HEIGHT-100),5+Right*2); 
+                    } else{
+                        e[i] = new Enemy2(r.nextInt(Display.WIDTH-100),r.nextInt(Display.HEIGHT-100),10+Right*2); 
+                    }
+                }
+                break;
         }
 
-        int enemyamount = r.nextInt(4)+2+Right/4;
-        e = new Enemy[enemyamount];
-        for(int i = 0; i <= enemyamount-1; i++){
-            if(r.nextBoolean()){
-                e[i] = new Enemy1(r.nextInt(Display.WIDTH-100),r.nextInt(Display.HEIGHT-100),5+Right*2); 
-            } else{
-                e[i] = new Enemy2(r.nextInt(Display.WIDTH-100),r.nextInt(Display.HEIGHT-100),10+Right*2); 
-            }
-        }
+        //TODO make a switch case for boss rooms dependen on int "Right"
 
+
+        //TODO make a random amount of boxes to load on screen
+       
+
+
+        //resets bullets on screen
         gun.FB.resetBullets();
         System.out.println("new room");
     }
 
     public void drawRoom(Graphics g){
+        if(bb!=null)
+            bb.draw(g);
+
+        if(bo!=null)
+        for (Box bo : bo) {
+                bo.draw(g);
+        }
+
         //draws all barrels
         if(b!=null)
         for (Barrel b : b) {

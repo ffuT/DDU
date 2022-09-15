@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 public class Gunslot extends inventoryslot {
-    Weapon gun;
+    public Weapon gun;
     public Gunslot(int n, int x, int y, Weapon weapon) {
         super(n, x, y);
         this.gun = weapon;

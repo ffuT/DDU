@@ -12,7 +12,7 @@ public class Barrel {
     public int x,y;
     public boolean isalive;
     public boolean explode;
-    public int explosion=60;
+    public int explosion=10;
 
     public Barrel(int x, int y){
         isalive=true;
@@ -45,12 +45,11 @@ public class Barrel {
                 gg.setColor(Color.red);
                 int rn= r.nextInt(50);
                 gg.fillOval(x+img.getWidth()/2-(400-rn)/2, y+img.getHeight()/2-(400-rn)/2, 400-rn, 400-rn);            
-                if(explosion>=30){
+                if(explosion>=5){
                     int rn2 = r.nextInt(100);
                     gg.setColor(Color.orange);
                     gg.fillOval(x+img.getWidth()/2-(750-rn2)/2, y+img.getHeight()/2-(750-rn2)/2, 750-rn2, 750-rn2);
                 }
-                    explosion--;
             }
             if(explosion<=0)
             explode=false;
@@ -58,6 +57,9 @@ public class Barrel {
     }
 
     public void update(Weapon gun){
+        if(explode)
+            explosion--;
+
         for (int i=0;i<=gun.FB.Particles.size()-1;i++) {
             if(gun.FB.Particles.get(i).hitBox(new PVector(x/4,y/4), new PVector(x/4+img.getWidth()/4,y/4+img.getHeight()/4))){ 
                 if(isalive)

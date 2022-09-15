@@ -19,6 +19,11 @@ class Display extends Canvas implements Runnable  {
     public Room room;
     public Player p;
 
+    //textures here:
+    private BufferedImage floorimg;
+    private String floorimgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Floor2.png";
+
+
     //temporary gun
     public Weapon gun;
     public float gunangle;
@@ -37,16 +42,25 @@ class Display extends Canvas implements Runnable  {
     }
 
     public Display(){
+        //textures:
+        try {
+            floorimg = ImageIO.read(new File(floorimgpath));
+        } catch (Exception e) {
+                System.out.println("Textures cant load (Display)");
+                System.exit(1);
+        }
+
         //setup values here
         MLocation = new PVector();
         room = new Room();
         p = new Player(StartHP,4f);
+
         inven = new Inventory(p);
         inven.addtoinventory(5);
         inven.addtoinventory(12);
         inven.addtoinventory(10);
         inven.gunslot.gun=new Weapon(new Part1(6), new Part2(6), new Part3(6));
-        System.out.println(inven.gunslot.gun.rare);
+        
         gun = inven.gunslotE.gun;
         new Window(WIDTH,HEIGHT,"SPRITE MAN ADVENTURES",this);
 
@@ -107,6 +121,7 @@ class Display extends Canvas implements Runnable  {
         game.tick(input.key);
 
         if(mainmenu){
+            input.mclick=false;
             return;
         }
 
@@ -157,6 +172,9 @@ class Display extends Canvas implements Runnable  {
         }
     }
 
+boolean tuto=false;
+    
+
     private void render(){
         MLocation = new PVector(input.mouseX,input.mouseY);
         BufferStrategy bs = this.getBufferStrategy();
@@ -166,24 +184,65 @@ class Display extends Canvas implements Runnable  {
         }
         Graphics g = bs.getDrawGraphics(); 
         
+        if(tuto){
+            g.setColor(Color.black);
+            g.fillRect(0, 0, WIDTH, HEIGHT);
+            g.setColor(Color.white);
+            g.drawString("NO TUTORIAL FOR U, but a lil info", WIDTH/3, HEIGHT/2-15);
+            g.drawString("\"you never go left, cus right is the right way!\"", WIDTH/3,HEIGHT/2);
+            g.drawString("move with wasd", WIDTH/3, HEIGHT/2+15);
+            g.drawString("Shoot and aim with mouse", WIDTH/3, HEIGHT/2+30);
+            g.drawString("Sprite man Adventures Begin!", WIDTH/3, HEIGHT/2+45);
 
+            Graphics2D gggg = (Graphics2D) g.create();
+            String imgpathstart = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\start.png";
+            try {
+            BufferedImage imgstart = ImageIO.read(new File(imgpathstart));
+            gggg.drawImage(imgstart, WIDTH/3-30,HEIGHT/3+120,null);
+            gggg.dispose();
+
+            if(input.mclick && input.mouseX >WIDTH/3-30 &&
+            input.mouseX<WIDTH/3+imgstart.getWidth()-30
+            && input.mouseY >425
+            && input.mouseY <525){
+               mainmenu=false;
+               tuto=false;
+               input.mclick =false;
+            }
+
+            } catch (Exception e) {}
+            
+            
+        } else
     if(mainmenu){
         Graphics2D ggg = (Graphics2D) g.create();
         try {
             ggg.setColor(Color.black);
             ggg.fillRect(0, 0, WIDTH, HEIGHT);
-            String imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\start.png";
-            BufferedImage img = ImageIO.read(new File(imgpath));
-            ggg.drawImage(img, WIDTH/2-img.getWidth()/2, HEIGHT/2-img.getHeight()/2,null);
+            String imgpathstart = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\start.png";
+            BufferedImage imgstart = ImageIO.read(new File(imgpathstart));
+            ggg.drawImage(imgstart, WIDTH/2-imgstart.getWidth()/2, HEIGHT/2-imgstart.getHeight()/2,null);
+            
+            String imgpathtut = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Tutor.png";
+            BufferedImage imgtut = ImageIO.read(new File(imgpathtut));
+            ggg.drawImage(imgtut, WIDTH/2-imgtut.getWidth()/2,HEIGHT/2+10,null);
 
-            if(input.mpres && input.mouseX >WIDTH/2-img.getWidth()/2 &&
-             input.mouseX<WIDTH/2-img.getWidth()/2+img.getWidth()
-             && input.mouseY > HEIGHT/2-img.getHeight()/2
-             && input.mouseY < HEIGHT/2-img.getHeight()/2+img.getHeight()){
+            if(input.mclick  && input.mouseX >WIDTH/2-imgstart.getWidth()/2 &&
+             input.mouseX<WIDTH/2-imgstart.getWidth()/2+imgstart.getWidth()
+             && input.mouseY >= 290
+             && input.mouseY <= 390){
                 mainmenu=false;
+                input.mclick = false;
              }
 
-
+             if(input.mclick  && input.mouseX > WIDTH/2-imgtut.getWidth()/2 &&
+             input.mouseX<WIDTH/2-imgtut.getWidth()/2+imgtut.getWidth()
+             && input.mouseY >= 445
+             && input.mouseY <= 545){
+                tuto=true;
+                input.mclick =false;
+             }
+             ggg.dispose();
 
         } catch (Exception e) {
             System.out.println("main menu wont load");
@@ -208,10 +267,7 @@ class Display extends Canvas implements Runnable  {
             //renders game when not in inventory
             try {
                 Graphics2D gg = (Graphics2D) g.create();
-
-                String imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Floor2.png";
-                BufferedImage img = ImageIO.read(new File(imgpath));
-                gg.drawImage(img, 0, 0, null);
+                gg.drawImage(floorimg, 0, 0, null);
                     
             } catch (Exception e) {
                 System.out.println("cant load txture");
