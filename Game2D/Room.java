@@ -8,11 +8,11 @@ public class Room {
     private int Right;
     public int prevdoor;
     Room(){
-        Right=4;
+        Right=0;
         r = new Random();
         prevdoor=0;
     }
-    public void UpdateRoom(Player p,Weapon gun){
+    public void UpdateRoom(Player p,Weapon gun, Inventory inven){
         if(bb!=null){
             bb.update(p, gun);
             if(bb.isalive)
@@ -30,7 +30,7 @@ public class Room {
 
         if(bo!=null)
         for (Box bo : bo) {
-            bo.update(gun);
+            bo.update(gun,p,inven);
         }
            
 

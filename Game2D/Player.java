@@ -8,16 +8,18 @@ import javax.imageio.ImageIO;
 public class Player {
     public mover mov;
     public float hitpoints;
+    public float maxhp;
     public float MSpeed;
     public int width = 61, height = 70;
 
     private BufferedImage Topimg,Botimg;
-    private String imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\SPRITE_SOLO_MAN.png";
-    private String imgpath2 = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\SPRITE_MANS_SKATEBOARD.png";
+    private String imgpath = "C:\\Users\\hille\\Documents\\GitHub\\DDU\\Game2D\\assets\\SPRITE_SOLO_MAN.png";
+    private String imgpath2 = "C:\\Users\\hille\\Documents\\GitHub\\DDU\\Game2D\\assets\\SPRITE_MANS_SKATEBOARD.png";
 
     Player(float HP, Float movementspeed){
         mov = new mover(50, Display.HEIGHT/2, 10);
         this.hitpoints = HP;
+        this.maxhp = HP;
         this.MSpeed = movementspeed;
         mov.objh = height;
         mov.objw = width;
@@ -53,6 +55,9 @@ public class Player {
         if(hitpoints <= 0){
             System.out.println("dead");
             System.exit(0);
+        }
+        if(hitpoints > maxhp){
+            hitpoints = maxhp;
         }
 
         mov.velocity.mult(MSpeed);

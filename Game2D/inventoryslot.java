@@ -11,11 +11,14 @@ public class inventoryslot {
     public Part1 p1;
     public Part2 p2;
     public Part3 p3;
+    public monster monner;
 
     public inventoryslot(int n,int x,int y){
         this.p1 = null;
         this.p2 = null;
-        this.p3 = null; 
+        this.p3 = null;
+        this.monner = null;
+
 
         this.Item = n;
         this.x=x;
@@ -26,8 +29,7 @@ public class inventoryslot {
         Graphics2D gg = (Graphics2D) g.create();
         gg.scale(1, 1);
         gg.drawRect(x, y, 100, 100);
-        
-        imgPath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\";
+        imgPath = "C:\\Users\\hille\\Documents\\GitHub\\DDU\\Game2D\\assets\\";
         try {
             BufferedImage img;
         switch (Item) {
@@ -181,6 +183,38 @@ public class inventoryslot {
                 if(p3==null)
                     p3 = new Part3(6);
                 break;
+            case 20:
+                imgPath += getpath();
+                img = ImageIO.read(new File(imgPath));
+                gg.scale(0.25,0.25);
+                gg.drawImage(img,x*4+15*4,y*4+20*4,null);
+                if(monner == null)
+                    monner = new monster(1);
+                break;
+            case 21:
+                imgPath += getpath();
+                img = ImageIO.read(new File(imgPath));
+                gg.scale(0.25,0.25);
+                gg.drawImage(img,x*4+15*4,y*4+20*4,null);
+                if(monner == null)
+                    monner = new monster(2);
+                break;
+            case 22:
+                imgPath += getpath();
+                img = ImageIO.read(new File(imgPath));
+                gg.scale(0.25,0.25);
+                gg.drawImage(img,x*4+15*4,y*4+20*4,null);
+                if(monner == null)
+                    monner = new monster(3);
+                break;
+            case 23:
+                imgPath += getpath();
+                img = ImageIO.read(new File(imgPath));
+                gg.scale(0.25,0.25);
+                gg.drawImage(img,x*4+15*4,y*4+20*4,null);
+                if(monner == null)
+                    monner = new monster(4);
+                break;
             default:
                 break;
         }
@@ -199,5 +233,88 @@ public class inventoryslot {
         this.p1 = slot2.p1;
         this.p2 = slot2.p2;
         this.p3 = slot2.p3;
+        this.monner = slot2.monner;
     }
+
+    public String getpath(){
+        String imgpath="";
+        switch (Item) {
+            case 0:
+
+                break;
+            case 1:
+            
+                break;
+            case 2:
+                imgpath = "Common part 1.png";
+                break;
+            case 3:
+                imgpath = "Common part 2.png";
+                break;
+            case 4:
+                imgpath = "Common part 3.png";
+                break;
+            case 5:
+                imgpath = "UNCommon part 1.png";
+                break;
+            case 6:
+                imgpath = "UNCommon part 2.png";
+                break;
+            case 7:
+                imgpath = "UNCommon part 3.png";
+                break;
+            case 8:
+                imgpath = "RARE part 1.png";
+                break;
+            case 9:
+                imgpath = "RARE part 2.png";
+                break;
+            case 10:
+                imgpath = "RARE part 3.png";
+                break;
+            case 11:
+                imgpath = "EPIC part 1.png";
+                break;
+            case 12:
+                imgpath = "EPIC part 2.png";
+                break;
+            case 13:
+                imgpath = "EPIC part 3.png";
+                break;
+            case 14:
+                imgpath = "Legendary part 1.png";
+                break;
+            case 15:
+                imgpath = "Legendary part 2.png";
+                break;
+            case 16:
+                imgpath = "Legendary part 3.png";
+                break;
+            case 17:
+                imgpath = "ULTRA part 1.png";
+                break;
+            case 18:
+                imgpath = "ULTRA part 2.png";
+                break;
+            case 19:
+                imgpath = "ULTRA part 3.png";
+                break;
+            case 20:
+                imgpath = "Monner_health.png";
+                break;
+            case 21:
+                imgpath = "monner_speed.png";
+                break;
+            case 22:
+                imgpath = "monner_damage.png";
+                break;
+            case 23:
+                imgpath = "monner_DEMON_TIME.png";
+                break;
+            default:
+                break;
+        }
+        return imgpath;
+    }
+
 }

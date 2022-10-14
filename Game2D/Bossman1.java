@@ -3,15 +3,13 @@ import java.awt.Graphics2D;
 import java.io.File;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
-import java.util.Random;
 
 public class Bossman1 {
     public float health,movementspeed,damage,x,y;
     public BufferedImage img;
     public boolean isalive;
 
-    private String imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\BOSSMAN.png";
-    private Random r = new Random();
+    private String imgpath = "C:\\Users\\hille\\Documents\\GitHub\\DDU\\Game2D\\assets\\BOSSMAN.png";
     private Enemy1projectile projectile;
 
     public Bossman1(int x, int y, float health) {

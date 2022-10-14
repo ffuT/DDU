@@ -21,7 +21,7 @@ class Display extends Canvas implements Runnable  {
 
     //textures here:
     private BufferedImage floorimg;
-    private String floorimgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Floor2.png";
+    private String floorimgpath = "C:\\Users\\hille\\Documents\\GitHub\\DDU\\Game2D\\assets\\Floor2.png";
 
 
     //temporary gun
@@ -52,16 +52,15 @@ class Display extends Canvas implements Runnable  {
 
         //setup values here
         MLocation = new PVector();
+        
         room = new Room();
-        p = new Player(StartHP,4f);
+        
+        p = new Player(StartHP,3f);
 
         inven = new Inventory(p);
-        inven.addtoinventory(5);
-        inven.addtoinventory(12);
-        inven.addtoinventory(10);
-        inven.gunslot.gun=new Weapon(new Part1(6), new Part2(6), new Part3(6));
-        
+
         gun = inven.gunslotE.gun;
+        
         new Window(WIDTH,HEIGHT,"SPRITE MAN ADVENTURES",this);
 
         input = new InputHandler();
@@ -69,6 +68,8 @@ class Display extends Canvas implements Runnable  {
         addFocusListener(input);
         addMouseListener(input);
         addMouseMotionListener(input);
+        //plays music continuously
+        playmusic play = new playmusic();
     }
 
     public synchronized void start() {
@@ -128,7 +129,7 @@ class Display extends Canvas implements Runnable  {
         if(game.control.inventory){
             inven.update();
             
-            inven.Selected(mouse,input.mclick,input.mdrag,input.mouseReleased);
+            inven.Selected(mouse,input.mclick,input.mdrag,input.mouseReleased,p);
 
             input.mclick=false;
             //stops game when in inventory
@@ -137,7 +138,7 @@ class Display extends Canvas implements Runnable  {
 
         //game updates here
         gametime++;
-        room.UpdateRoom(p,gun);
+        room.UpdateRoom(p,gun,inven);
 
         gun = inven.gunslotE.gun;
         //gun movement
@@ -195,7 +196,7 @@ boolean tuto=false;
             g.drawString("Sprite man Adventures Begin!", WIDTH/3, HEIGHT/2+45);
 
             Graphics2D gggg = (Graphics2D) g.create();
-            String imgpathstart = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\start.png";
+            String imgpathstart = "C:\\Users\\hille\\Documents\\GitHub\\DDU\\Game2D\\assets\\start.png";
             try {
             BufferedImage imgstart = ImageIO.read(new File(imgpathstart));
             gggg.drawImage(imgstart, WIDTH/3-30,HEIGHT/3+120,null);
@@ -219,11 +220,11 @@ boolean tuto=false;
         try {
             ggg.setColor(Color.black);
             ggg.fillRect(0, 0, WIDTH, HEIGHT);
-            String imgpathstart = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\start.png";
+            String imgpathstart = "C:\\Users\\hille\\Documents\\GitHub\\DDU\\Game2D\\assets\\start.png";
             BufferedImage imgstart = ImageIO.read(new File(imgpathstart));
             ggg.drawImage(imgstart, WIDTH/2-imgstart.getWidth()/2, HEIGHT/2-imgstart.getHeight()/2,null);
             
-            String imgpathtut = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Tutor.png";
+            String imgpathtut = "C:\\Users\\hille\\Documents\\GitHub\\DDU\\Game2D\\assets\\Tutor.png";
             BufferedImage imgtut = ImageIO.read(new File(imgpathtut));
             ggg.drawImage(imgtut, WIDTH/2-imgtut.getWidth()/2,HEIGHT/2+10,null);
 
@@ -331,16 +332,20 @@ boolean tuto=false;
         g.dispose();
         bs.show();
     }
+
+    BufferedImage healthimg;
+
     public void DrawHealthbar(Graphics g){
         try{
             Graphics2D gg = (Graphics2D) g.create();
             
-            String imgpath = "C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\HEALTHVBAR OF DOOM.png";
-            BufferedImage img = ImageIO.read(new File(imgpath));
+            String imgpath = "C:\\Users\\hille\\Documents\\GitHub\\DDU\\Game2D\\assets\\HEALTHVBAR OF DOOM.png";
+            if(healthimg==null)
+                healthimg = ImageIO.read(new File(imgpath));
             gg.setColor(Color.red);
             float HPWidth = (p.hitpoints/StartHP) * 246;
             gg.fillRect(25, 72, (int) HPWidth, 35);
-            gg.drawImage(img, 20, 20, null);
+            gg.drawImage(healthimg, 20, 20, null);
 
             gg.dispose();
             } catch(IOException e){

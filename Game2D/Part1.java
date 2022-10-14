@@ -12,14 +12,14 @@ public class Part1 {
         r = new Random();
         int temp =r.nextInt(100);
         //30 % chance for common
-        if( temp <= 30){
+        if( temp <= 50){
             Rarity=1;
         //25% chance for uncommon
-        } else if(temp <= 55){
+        } else if(temp <= 65){
             Rarity = 2;
-        } else if(temp <= 75){
+        } else if(temp <= 85){
             Rarity = 3;
-        } else if(temp <= 90){
+        } else if(temp <= 95){
             Rarity = 4;
         } else if(temp <= 99){
             Rarity = 5;

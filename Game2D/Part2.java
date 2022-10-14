@@ -44,7 +44,7 @@ public class Part2 {
     private void getstats(){
         switch (Rarity) {
             case 1:
-                this.FireRate = r.nextInt(15)+25;
+                this.FireRate = r.nextInt(10)+30;
                 this.Knockback = r.nextInt(10);
                 break;
             case 2:

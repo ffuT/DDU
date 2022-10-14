@@ -20,7 +20,7 @@ public class Barrel {
         this.x=x*4;
         this.y=y*4;
         try {
-            img = ImageIO.read(new File("C:\\Users\\Tuff\\Documents\\GitHub\\DDU\\Game2D\\assets\\Exsplosive_barrel.png"));   
+            img = ImageIO.read(new File("C:\\Users\\hille\\Documents\\GitHub\\DDU\\Game2D\\assets\\Exsplosive_barrel.png"));   
         } catch (Exception e) {
             System.out.println("cant get barrel texture");
         }

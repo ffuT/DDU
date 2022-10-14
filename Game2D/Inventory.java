@@ -106,9 +106,36 @@ public class Inventory {
         }
     }
 
-    public void Selected(PVector mouse,boolean click, boolean drag,boolean release){
+    public void Selected(PVector mouse,boolean click, boolean drag,boolean release,Player p){
         tempslot.x = (int) mouse.x;
         tempslot.y = (int) mouse.y;
+
+        if(slots[0].monner!=null && click && mouse.x > slots[0].x+10 && mouse.x < slots[0].x+60 && mouse.y > slots[0].y+100 && mouse.y < slots[0].y+120){
+            doMonnerEffect(p,slots[0].monner.type);
+            slots[0] = new inventoryslot(0, slots[0].x, slots[0].y);
+        }
+        
+        if(slots[1].monner!=null && click && mouse.x > slots[1].x+10 && mouse.x < slots[1].x+60 && mouse.y > slots[1].y+100 && mouse.y < slots[1].y+120){
+            doMonnerEffect(p,slots[1].monner.type);
+
+            slots[1] = new inventoryslot(0, slots[1].x, slots[1].y);
+        }
+        if(slots[2].monner!=null && click && mouse.x > slots[2].x+10 && mouse.x < slots[2].x+60 && mouse.y > slots[2].y+100 && mouse.y < slots[2].y+120){
+            doMonnerEffect(p,slots[2].monner.type);
+            slots[2] = new inventoryslot(0, slots[2].x, slots[2].y);
+        }
+        if(slots[3].monner!=null && click && mouse.x > slots[3].x+10 && mouse.x < slots[3].x+60 && mouse.y > slots[3].y+100 && mouse.y < slots[3].y+120){
+            doMonnerEffect(p,slots[3].monner.type);
+            slots[3] = new inventoryslot(0, slots[3].x, slots[3].y);
+        }
+        if(slots[4].monner!=null && click && mouse.x > slots[4].x+10 && mouse.x < slots[4].x+60 && mouse.y > slots[4].y+100 && mouse.y < slots[4].y+120){
+            doMonnerEffect(p,slots[4].monner.type);
+            slots[4] = new inventoryslot(0, slots[4].x, slots[4].y);
+        }
+        if(slots[5].monner!=null && click && mouse.x > slots[5].x+10 && mouse.x < slots[5].x+60 && mouse.y > slots[5].y+100 && mouse.y < slots[5].y+120){
+            doMonnerEffect(p,slots[5].monner.type);
+            slots[5] = new inventoryslot(0, slots[5].x, slots[5].y);
+        }
 
         //remove guns when click
         if(click && mouse.x > gunslot.x+40 && mouse.x < gunslot.x+60 && mouse.y > gunslot.y+100 && mouse.y < gunslot.y+120 ){
@@ -167,7 +194,7 @@ public class Inventory {
             }
         }
 
-        //inventory
+        //inventory this could be loop :P for inventoryslot[] s : slots
         if(click && mouse.x > slots[0].x && mouse.x < slots[0].x+100 && mouse.y > slots[0].y && mouse.y < slots[0].y+100){
             if(tempslot.Item==0){
             tempslot.copyslot(slots[0]);
@@ -230,11 +257,37 @@ public class Inventory {
         }
     }
 
+    public void doMonnerEffect(Player p, int monnertype){
+        switch (monnertype) {
+            case 1:
+                p.hitpoints+=15;            
+                if(p.hitpoints > p.maxhp){
+                    p.hitpoints = p.maxhp;
+                }
+                break;
+            case 2:
+                p.MSpeed +=0.25f;
+                break;
+            case 3:
+                //idk bro
+                break;
+            case 4:
+                //idk bro
+                break;
+        }
+    }
+
+
     public void drawInventory(Graphics g, PVector mouse){
         Graphics2D gg = (Graphics2D) g.create();
         gg.setColor(Color.black);
         for(inventoryslot p : slots){
             p.drawslot(gg);
+            if(p.monner!=null){
+                gg.setColor(Color.white);
+                gg.drawString("consume", p.x+10, p.y+115);
+                gg.setColor(Color.black);
+            }
         }
         for(inventoryslot p : craftslots){
             p.drawslot(gg);
@@ -245,7 +298,7 @@ public class Inventory {
         gunslot.drawslot(gg);
         gunslot2.drawslot(gg);
         gunslotE.drawslot(gg);
-            gg.setColor(Color.white);
+        gg.setColor(Color.white);
             //this can be a loop
         if(gunslot.gun !=null  && mouse.x > gunslot.x && mouse.x < gunslot.x+100 && mouse.y > gunslot.y && mouse.y < gunslot.y+100){
             String dmg = String.format("Gun Damage: %.3f", gunslot.gun.DMG);
@@ -282,6 +335,29 @@ public class Inventory {
                 gg.drawString("BulletSpeed "+p.p3.BulletSpeed , mouse.x+10, mouse.y+15);
                 gg.drawString("BulletSpread "+p.p3.Spread , mouse.x+10, mouse.y+30);
             }
+            if(p.monner!=null && mouse.x > p.x && mouse.x < p.x+100 && mouse.y > p.y && mouse.y < p.y+100){
+                switch (p.monner.type) {
+                    case 1:
+                        gg.drawString("Health", mouse.x+10, mouse.y);
+                        break;
+                    case 2:
+                        gg.drawString("speed", mouse.x+10, mouse.y);
+                    
+                        break;
+
+                    case 3:
+                       gg.drawString("damage", mouse.x+10, mouse.y);
+
+                        break;
+                    case 4:
+                        gg.drawString("DEMON TIME", mouse.x+10, mouse.y);
+
+                        break;
+
+                }
+
+            }
+
         }            
 
         gg.dispose();
